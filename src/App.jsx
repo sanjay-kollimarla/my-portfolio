@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -8,6 +8,9 @@ import Certificates from './components/Certificates'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import { initWaves } from './lib/waves'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 export default function App(){
   useEffect(()=>{
@@ -17,11 +20,16 @@ export default function App(){
     <div className='app'>
       <Nav />
       <Hero />
+      <hr/>
       <main>
         <About />
+        <hr/>
         <Skills />
+        <hr/>
         <Projects />
+        <hr/>
         <Certificates />
+        <hr/>
         <Contact />
       </main>
       <Footer />
