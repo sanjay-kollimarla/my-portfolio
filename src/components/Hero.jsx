@@ -37,8 +37,8 @@ export default function Hero(){
           <p className="lead">{resume.title}</p>
           <p className="summary">{resume.summary}</p>
           <div className="hero-cta">
-            <a className="btn primary" href={resume.projects[0].demoLink} target="_blank" rel="noreferrer" onClick={()=>clickSound.play()}>View Jobby App</a>
-            <a className="btn resume" href="/resume.pdf" download onClick={()=>clickSound.play()}>Download Resume</a>
+            {/* <a className="btn primary" href={resume.projects[0].demoLink} target="_blank" rel="noreferrer" onClick={()=>clickSound.play()}>View Jobby App</a> */}
+            <a className="btn resume" href="/resume.pdf" download onClick={()=>clickSound.play()}>Resume <i class="bi bi-box-arrow-up-right"></i></a>
           </div>
         </motion.div>
       </div>

@@ -1,42 +1,76 @@
-// import React, {useState} from 'react'
-// import { FiSun, FiMoon, FiGithub, FiLinkedin } from 'react-icons/fi'
-// import { Howl } from 'howler'
-// import clickMp3 from '../assets/sounds/click.mp3'
+import React, { useEffect, useState } from 'react';
 
-// const clickSound = new Howl({ src: [clickMp3], volume: 0.15 })
+export default function Nav() {
+  const sections = ['about', 'skills', 'projects', 'certifications', 'contact'];
+  const [activeHash, setActiveHash] = useState(window.location.hash || '#about');
 
-export default function Nav(){
-  // const [theme, setTheme] = useState('dark')
-  // const [soundOn, setSoundOn] = useState(true)
+  useEffect(() => {
+    function onHashChange() {
+      setActiveHash(window.location.hash || '#about');
+    }
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
-  // function toggleTheme(){
-  //   const n = theme === 'dark' ? 'light' : 'dark'
-  //   setTheme(n)
-  //   document.documentElement.setAttribute('data-theme', n)
-  //   if(soundOn) clickSound.play()
-  // }
-  // function toggleSound(){
-  //   setSoundOn(s=>!s)
-  // }
+  // useEffect(() => {
+  //   function onScroll() {
+  //     const scrollPosition = window.scrollY + window.innerHeight; // offset to detect early
+
+  //     for (let i = 0; i < sections.length; i++) {
+  //       const sectionId = sections[i];
+  //       const el = document.getElementById(sectionId);
+  //       if (el) {
+  //         const top = el.offsetTop;
+  //         const height = el.offsetHeight;
+  //         if (scrollPosition >= top && scrollPosition < top + height) {
+  //           const newHash = `#${sectionId}`;
+  //           if (newHash !== window.location.hash) {
+  //             // update URL without jumping or adding to history stack
+  //             history.replaceState(null, '', newHash);
+  //             setActiveHash(newHash);
+  //           }
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   window.addEventListener('scroll', onScroll, { passive: true });
+
+  //   // initial call in case page loads mid-scroll
+  //   onScroll();
+
+  //   return () => window.removeEventListener('scroll', onScroll);
+  // }, [sections]);
+
+  const NavLink = ({ section }) => (
+    <a
+      key={section}
+      href={`#${section}`}
+      className="nav-link rounded-5"
+      style={{
+        backgroundColor: activeHash === `#${section}` ? 'white' : 'transparent',
+        color: activeHash === `#${section}` ? 'black' : 'inherit',
+        borderRadius: '4px',
+        padding: '6px 8px',
+        minWidth: '75px',
+        textAlign: 'center',
+      }}
+    >
+      {section.charAt(0).toUpperCase() + section.slice(1)}
+    </a>
+  )
+
+  const NavLinks = () => sections.map(section => <NavLink section={section}/>);
 
   return (
     <header className='nav'>
       <div className='container nav-inner'>
-        <div className='brand'><i class="bi bi-file-code fs-2 cursor-pointer"></i></div>
+        <div className='brand'><i className="bi bi-file-code fs-2 cursor-pointer"></i></div>
         <nav className='nav-links ms-auto'>
-          <a href="#about" className="nav-link">About</a>
-          <a href="#skills" className="nav-link">Skills</a>
-          <a href="#projects" className="nav-link">Projects</a>
-          <a href="#certs" className="nav-link">Certificates</a>
-          <a href="#contact" className="nav-link">Contact</a>
+         <NavLinks/>
         </nav>
-        {/* <div className='nav-actions'>
-          <a href="https://github.com/yourusername" target='_blank' rel='noreferrer'><FiGithub size={18} /></a>
-          <a href="https://linkedin.com/in/kollimarla-sai-sanjay" target='_blank' rel='noreferrer'><FiLinkedin size={18} /></a>
-          <button className='icon-btn' onClick={toggleTheme} aria-label='Toggle theme'>{theme==='dark'?<FiSun/>:<FiMoon/>}</button>
-          <button className='icon-btn' onClick={toggleSound} aria-label='Toggle sound'>{soundOn?'🔊':'🔇'}</button>
-        </div> */}
       </div>
     </header>
-  )
+  );
 }

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 export default function Certificates(){
   const [modal, setModal] = useState(null)
   return (
-    <section id="certs" className="section">
+    <section id="certifications" className="section">
       <div className="container">
         <h2>Certificates</h2>
         <div className="cert-scroll" role="list">
