@@ -127,7 +127,7 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  backdrop-filter: blur(40px);
+  backdrop-filter: blur(10px);
 }
 
 .floating-pic {
