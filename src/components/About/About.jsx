@@ -1,5 +1,5 @@
 import React from 'react'
-import resume from '../data/resumeData'
+import resume from '../../data/resumeData'
 
 export default function About(){
   return (

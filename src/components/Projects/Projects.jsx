@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import resume from '../data/resumeData'
+import resume from '../../data/resumeData'
 
 export default function Projects(){
   return (

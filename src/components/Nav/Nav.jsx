@@ -61,12 +61,12 @@ export default function Nav() {
     </a>
   )
 
-  const NavLinks = () => sections.map(section => <NavLink section={section}/>);
+  const NavLinks = () => sections.map((section, i) => <NavLink key={i} section={section}/>);
 
   return (
     <header className='nav'>
       <div className='container nav-inner'>
-        <div className='brand'><i className="bi bi-file-code fs-2 cursor-pointer"></i></div>
+        <a className='brand' href=""><i className="bi bi-file-code fs-2"></i></a>
         <nav className='nav-links ms-auto'>
          <NavLinks/>
         </nav>

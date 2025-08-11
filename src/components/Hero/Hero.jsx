@@ -1,8 +1,8 @@
 import React, {useRef, useEffect} from 'react'
 import { motion } from 'framer-motion'
-import resume from '../data/resumeData'
+import resume from '../../data/resumeData'
 import { Howl } from 'howler'
-import clickMp3 from '../assets/sounds/click.mp3'
+import clickMp3 from '../../assets/sounds/click.mp3'
 
 const clickSound = new Howl({ src: [clickMp3], volume: 0.18 })
 
@@ -38,7 +38,7 @@ export default function Hero(){
           <p className="summary">{resume.summary}</p>
           <div className="hero-cta">
             {/* <a className="btn primary" href={resume.projects[0].demoLink} target="_blank" rel="noreferrer" onClick={()=>clickSound.play()}>View Jobby App</a> */}
-            <a className="btn resume" href="/resume.pdf" download onClick={()=>clickSound.play()}>Resume <i class="bi bi-box-arrow-up-right"></i></a>
+            <a className="btn resume" href="/resume.pdf" download onClick={()=>clickSound.play()}>Resume <i className="bi bi-box-arrow-up-right"></i></a>
           </div>
         </motion.div>
       </div>

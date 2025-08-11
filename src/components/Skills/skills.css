@@ -1,0 +1,55 @@
+/*
+ * Scrolling Chips Container & Animation
+ * ----------------------------------------
+ */
+.scrolling-chips-container {
+  margin-top: 4rem;
+  width: 100%;
+  overflow: hidden; /* Hides the scrollbar */
+  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.scrolling-chips-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite; /* Adjust duration to control speed */
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* This creates the seamless loop */
+  }
+}
+
+/*
+ * Individual Skill Chip
+ * ----------------------------------------
+ */
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem; /* Space between icon and text */
+  padding: 0.5rem 1.25rem;
+  margin: 0 0.5rem;
+  background-color: #f0f0f0; /* Light grey background */
+  border: 1px solid #ddd;
+  border-radius: 50px; /* Fully rounded corners */
+  white-space: nowrap; /* Prevents text from wrapping */
+  font-size: 0.9rem;
+  transition: all 2s ease-in-out;
+}
+
+.skill-chip:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #e9e9e9;
+}
+
+.skill-chip-icon {
+  width: 24px;
+  height: 24px;
+}
