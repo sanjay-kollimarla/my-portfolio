@@ -20,7 +20,7 @@ export default function Certificates() {
           <Modal.Title id="certificate-modal">{modal.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-          <div className="certificate-modal-image ">
+          <div className="certificate-modal-image">
             <img src={modal.file} alt={modal.name} loading="lazy" />
           </div>
         </Modal.Body>
@@ -34,31 +34,19 @@ export default function Certificates() {
         <h2>Certificates</h2>
         <div className="certificates-grid">
           {resume.certificates.map((cert, idx) => (
-            <div
-              key={idx}
-              className="certificate-card"
-              onClick={() => setModal(cert)}
-            >
+            <div key={idx} className="certificate-card d-flex flex-column align-items-stretch" onClick={() => setModal(cert)}>
               <div className="certificate-image">
-                <img src={cert.file} alt={cert.name} />
+                <img src={cert.file} alt={cert.name} height='100%' />
               </div>
-              <div className="certificate-content">
-                <h3>{cert.name}</h3>
-                <div className="certificate-footer">
-                  <img
-                    src={cert["company-logo"]}
-                    alt={cert.company}
-                    className="company-logo"
-                  />
+              <div className="certificate-content d-flex flex-row-reverse align-items-center justify-content-around gap-3 m-2 rounded p-2">
+                <button className="arrow-btn" aria-label="View Certificate" onClick={() => setModal(cert)}>
+                  <i className="bi bi-box-arrow-up-right text-white"></i>
+                </button>
+                <h3 className="m-0 w-100 text-white"><i>{cert.name}</i></h3>
+                <div className="certificate-footer bg-light rounded m-0">
+                  <img src={cert["company-logo"]} alt={cert.company} className="company-logo" />
                 </div>
               </div>
-              <button
-                className="arrow-btn ms-auto mt-auto mb-0 pb-0"
-                aria-label="View Certificate"
-                onClick={() => setModal(cert)}
-              >
-                <i className="bi bi-box-arrow-up-right"></i>
-              </button>
             </div>
           ))}
         </div>
