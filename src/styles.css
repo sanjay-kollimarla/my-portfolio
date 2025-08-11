@@ -122,9 +122,12 @@ body {
 .hero-inner {
   display: flex;
   gap: 48px;
+  padding: 50px;
+  border-radius: 20px;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap
+  flex-wrap: wrap;
+  backdrop-filter: blur(40px);
 }
 
 .floating-pic {
@@ -134,10 +137,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent);
   padding: 12px;
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.6);
   transition: transform 300ms
 }
 
@@ -340,3 +341,4 @@ body {
     padding: 8px 12px
   }
 }
+
