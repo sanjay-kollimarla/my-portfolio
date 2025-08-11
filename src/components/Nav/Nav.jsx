@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 export default function Nav() {
-  const sections = ['about', 'skills', 'projects', 'certifications', 'contact'];
-  const [activeHash, setActiveHash] = useState(window.location.hash || '#about');
+  const sections = ["about", "skills", "projects", "certifications", "contact"];
+  const [activeHash, setActiveHash] = useState(
+    window.location.hash || "#about"
+  );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     function onHashChange() {
-      setActiveHash(window.location.hash || '#about');
+      setActiveHash(window.location.hash || "#about");
     }
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
   // useEffect(() => {
@@ -47,28 +50,45 @@ export default function Nav() {
     <a
       key={section}
       href={`#${section}`}
+      onClick={() => setIsMenuOpen(false)}
       className="nav-link rounded-5"
       style={{
-        backgroundColor: activeHash === `#${section}` ? 'white' : 'transparent',
-        color: activeHash === `#${section}` ? 'black' : 'inherit',
-        borderRadius: '4px',
-        padding: '6px 8px',
-        minWidth: '75px',
-        textAlign: 'center',
+        backgroundColor: activeHash === `#${section}` ? "white" : "transparent",
+        color: activeHash === `#${section}` ? "black" : "inherit",
+        borderRadius: "4px",
+        padding: "6px 8px",
+        minWidth: "75px",
+        textAlign: "center",
       }}
     >
       {section.charAt(0).toUpperCase() + section.slice(1)}
     </a>
-  )
+  );
 
-  const NavLinks = () => sections.map((section, i) => <NavLink key={i} section={section}/>);
+  const NavLinks = () =>
+    sections.map((section, i) => <NavLink key={i} section={section} />);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
-    <header className='nav'>
-      <div className='container nav-inner'>
-        <a className='brand' href=""><i className="bi bi-file-code fs-2 text-white"></i></a>
-        <nav className='nav-links ms-auto'>
-         <NavLinks/>
+    <header className="nav">
+      <div className="container nav-inner">
+        <a className="brand" href="">
+          <i className="bi bi-file-code fs-2 text-white"></i>
+        </a>
+        <button
+          className={`hamburger ${isMenuOpen ? "nav-open" : ""}`}
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav className={`nav-links ms-auto ${isMenuOpen ? "nav-open" : ""}`}>
+          <NavLinks />
         </nav>
       </div>
     </header>
