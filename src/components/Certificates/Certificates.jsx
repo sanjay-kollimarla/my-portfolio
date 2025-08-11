@@ -50,11 +50,15 @@ export default function Certificates() {
                     alt={cert.company}
                     className="company-logo"
                   />
-                  <button className="arrow-btn" aria-label="View Certificate">
-                   <i className="bi bi-box-arrow-up-right" ></i>
-                  </button>
                 </div>
               </div>
+              <button
+                className="arrow-btn ms-auto mt-auto mb-0 pb-0"
+                aria-label="View Certificate"
+                onClick={() => setModal(cert)}
+              >
+                <i className="bi bi-box-arrow-up-right"></i>
+              </button>
             </div>
           ))}
         </div>

@@ -55,12 +55,12 @@
 
 .certificate-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 1rem;
   padding: 1.2rem 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.25);
+  
 }
 
 .company-logo {
