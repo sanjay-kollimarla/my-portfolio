@@ -44,7 +44,16 @@ export default function Certificates() {
               </div>
               <div className="certificate-content">
                 <h3>{cert.name}</h3>
-                <button className="view-btn">View Certificate</button>
+                <div className="certificate-footer">
+                  <img
+                    src={cert["company-logo"]}
+                    alt={cert.company}
+                    className="company-logo"
+                  />
+                  <button className="arrow-btn" aria-label="View Certificate">
+                   <i className="bi bi-box-arrow-up-right" ></i>
+                  </button>
+                </div>
               </div>
             </div>
           ))}
