@@ -99,14 +99,42 @@ body {
 .nav-links a {
   color: var(--muted);
   text-decoration: none;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 8px 20px;
+  border-radius: 12px;
   font-size: 14px;
-  transition: color var(--transition)
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all var(--transition);
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
 }
 
 .nav-links a:hover {
-  color: var(--accent2)
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  transition: all var(--transition);
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.nav-links a:hover::after {
+  width: 40%;
+  left: 30%;
+  opacity: 1;
 }
 
 .nav-actions {
