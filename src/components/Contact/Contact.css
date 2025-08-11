@@ -1,189 +1,159 @@
-/* --- 1. DYNAMIC SECTION BACKGROUND --- */
-.contact-section-advanced {
-    position: relative;
-    overflow: hidden;
-    /* Important for containing the blobs */
-    /* background-color: rgba(193, 199, 207, 0.15); */
-    background-color: rgba(255, 255, 255, 0.8);
-    /* A light fallback background */
-    backdrop-filter: blur(20px);
-}
+.section {
+            padding: 6rem 2rem;
+        }
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
 
-/* Creating the animated "blobs" */
-.contact-section-advanced::before,
-.contact-section-advanced::after {
-    content: '';
-    position: absolute;
-    z-index: 0;
-    border-radius: 50%;
-    filter: blur(100px);
-    /* This creates the soft, blurry effect */
-}
+        /* --- 1. DYNAMIC SECTION BACKGROUND --- */
+        .contact-section-advanced {
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(248, 249, 250, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
 
-/* First blob */
-.contact-section-advanced::before {
-    width: 400px;
-    height: 400px;
-    background: rgba(13, 110, 253, 0.15);
-    /* A shade of blue */
-    top: -100px;
-    left: -100px;
-    animation: move-blob-1 15s infinite alternate;
-}
+        /* Creating the animated "blobs" */
+        .contact-section-advanced::before,
+        .contact-section-advanced::after {
+            content: '';
+            position: absolute;
+            z-index: -1; /* Place blobs behind content */
+            border-radius: 50%;
+            filter: blur(100px);
+        }
 
-/* Second blob */
-.contact-section-advanced::after {
-    width: 350px;
-    height: 350px;
-    background: rgba(253, 13, 169, 0.1);
-    /* A shade of pink */
-    bottom: -150px;
-    right: -150px;
-    animation: move-blob-2 18s infinite alternate;
-}
+        /* First blob */
+        .contact-section-advanced::before {
+            width: 400px;
+            height: 400px;
+            background: rgba(13, 110, 253, 0.15);
+            top: -100px;
+            left: -100px;
+            animation: move-blob-1 15s infinite alternate;
+        }
 
-@keyframes move-blob-1 {
-    from {
-        transform: translate(0, 0) scale(1);
-    }
-
-    to {
-        transform: translate(100px, 50px) scale(1.2);
-    }
-}
-
-@keyframes move-blob-2 {
-    from {
-        transform: translate(0, 0) scale(1);
-    }
-
-    to {
-        transform: translate(-80px, -40px) scale(0.8);
-    }
-}
+        /* Second blob */
+        .contact-section-advanced::after {
+            width: 350px;
+            height: 350px;
+            background: rgba(253, 13, 169, 0.1);
+            bottom: -150px;
+            right: -150px;
+            animation: move-blob-2 18s infinite alternate;
+        }
 
 
-/* --- 2. THE CONTACT CARD --- */
-.contact-grid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    position: relative;
-    /* Ensure cards are above the blobs */
-    z-index: 1;
-}
 
-.contact-card {
-    position: relative;
-    /* Needed for the gradient border pseudo-element */
-    padding: 2px;
-    /* This creates space for the border to appear */
-    text-decoration: none;
-    border-radius: 16px;
-    /* Set up the 3D space */
-    min-width: 400px;
+        /* --- 2. LAYOUT AND CARD STYLING --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1; /* Ensure cards are above the background blobs */
+        }
 
-}
+        .contact-card {
+            position: relative;
+            padding: 2px; /* Space for the animated border */
+            text-decoration: none;
+            border-radius: 16px;
+            perspective: 1000px;
+        }
 
-/* The card's main content area - this has the glass effect */
-.card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2.5rem 1.5rem;
-    height: 100%;
-    border-radius: 14px;
-    /* Slightly smaller than parent for the border */
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1.5rem;
+            height: 100%;
+            border-radius: 14px;
+            /* Glassmorphism Effect */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Parallax Effect Setup */
+    
+        }
 
-    /* The Glassmorphism Effect */
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+        /* --- 3. HOVER EFFECTS --- */
+        .contact-card:hover {
+            transform: scale(1.05) rotateX(10deg) rotateY(5deg);
+        }
 
-    /* The Parallax Effect */
-    transform: translateZ(20px);
-    transition: transform 0.5s ease;
-}
+        /* .contact-card:hover .card-content {
+            transform: translateZ(40px) translateY(-10px);
+        } */
 
-/* --- 3. HOVER EFFECTS --- */
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px; /* Border thickness */
+            background: linear-gradient(45deg, #007bff, #ff00c8);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+           
+            z-index: -1;
+        }
 
-/* The 3D Tilt on Hover */
-.contact-card:hover {
-    transform: scale(1.05) rotateX(10deg) rotateY(5deg);
-}
+        .contact-card:hover::before {
+            opacity: 1;
+        }
 
-/* The content moves slightly on hover for a parallax effect */
-.contact-card:hover .card-content {
-    transform: translateZ(40px) translateY(-10px);
-}
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-/* The Animated Gradient Border on Hover */
-.contact-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    padding: 2px;
-    /* The border thickness */
-    background: linear-gradient(45deg, #007bff, #ff00c8);
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    /* animation: rotate-border 4s linear infinite; */
-    z-index: -1;
-}
+        /* --- 4. TEXT AND ICON STYLING --- */
+        .contact-section-header {
+            font-size: clamp(40px, 8vw, 72px); /* Responsive font size */
+            text-align: center;
+            font-weight: 700;
+            background: -webkit-linear-gradient(45deg, #912a85, #9615be, rgb(196, 60, 196));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
 
-.contact-card:hover::before {
-    opacity: 1;
-}
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
 
-@keyframes rotate-border {
-    from {
-        transform: rotate(0deg);
-    }
+        .card-content .icon {
+            font-size: 2.75rem;
+            margin-bottom: 1.25rem;
+            color: #0d6efd;
+            transition: color 0.3s ease;
+        }
 
-    to {
-        transform: rotate(90deg);
-    }
-}
+        .contact-card:hover .icon {
+            color: #ff00c8;
+        }
 
+        .card-content .title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
 
-/* --- 4. CONTENT STYLING --- */
-.card-content .icon {
-    font-size: 2.75rem;
-    margin-bottom: 1.25rem;
-    color: #0d6efd;
-    transition: color 0.3s ease;
-}
-
-.contact-card:hover .icon {
-    color: #ff00c8;
-    /* Change icon color on hover */
-}
-
-.card-content .title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 0.25rem;
-}
-
-.card-content .subtitle {
-    font-size: 0.95rem;
-    color: #495057;
-}
-
-.contact-section-header {
-    font-size: 72px;
-    background: -webkit-linear-gradient( #841279, #ff18d1, rgb(196, 60, 196));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+        .card-content .subtitle {
+            font-size: 0.95rem;
+            color: #495057;
+        }

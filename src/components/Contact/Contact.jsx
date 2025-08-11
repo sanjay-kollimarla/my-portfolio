@@ -40,7 +40,7 @@ export default function Contact() {
         <p className="section-subtitle text-secondary fw-medium">
           I'm currently open to new opportunities. Feel free to reach out.
         </p>
-        <div className="contact-grid">
+        <div className="d-flex align-items-center justify-content-center gap-2">
           {contactMethods.map((method, index) => (
             <a
               key={index}
@@ -50,7 +50,7 @@ export default function Contact() {
               rel="noopener noreferrer"
             >
               {/* This inner div is for the 3D parallax effect */}
-              <div className="card-content">
+              <div className="card-content rounded-5">
                 {method.icon}
                 <span className="title">{method.title}</span>
                 <span className="subtitle">{method.subtitle}</span>
