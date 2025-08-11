@@ -1,20 +1,22 @@
 .section {
-            padding: 6rem 2rem;
-        }
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg);
+}
 
-        /* --- 1. DYNAMIC SECTION BACKGROUND --- */
-        .contact-section-advanced {
-            position: relative;
-            overflow: hidden;
-            background-color: rgba(248, 249, 250, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+.contact-container {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
         /* Creating the animated "blobs" */
         .contact-section-advanced::before,
@@ -49,21 +51,28 @@
 
 
         /* --- 2. LAYOUT AND CARD STYLING --- */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            position: relative;
-            z-index: 1; /* Ensure cards are above the background blobs */
-        }
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-        .contact-card {
-            position: relative;
-            padding: 2px; /* Space for the animated border */
-            text-decoration: none;
-            border-radius: 16px;
-            perspective: 1000px;
-        }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
 
         .card-content {
             display: flex;
@@ -117,43 +126,49 @@
             to { transform: rotate(360deg); }
         }
 
-        /* --- 4. TEXT AND ICON STYLING --- */
-        .contact-section-header {
-            font-size: clamp(40px, 8vw, 72px); /* Responsive font size */
-            text-align: center;
-            font-weight: 700;
-            background: -webkit-linear-gradient(45deg, #912a85, #9615be, rgb(196, 60, 196));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
+.contact-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2.5rem;
+  color: var(--text);
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-        .section-subtitle {
-            text-align: center;
-            color: #6c757d;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-        }
+.title-icon {
+  font-size: 2rem;
+  color: var(--accent1);
+}
 
-        .card-content .icon {
-            font-size: 2.75rem;
-            margin-bottom: 1.25rem;
-            color: #0d6efd;
-            transition: color 0.3s ease;
-        }
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--accent1), var(--accent2));
+  color: white;
+  font-size: 1.5rem;
+}
 
-        .contact-card:hover .icon {
-            color: #ff00c8;
-        }
+.contact-details h3 {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+}
 
-        .card-content .title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #212529;
-            margin-bottom: 0.25rem;
-        }
+.contact-value {
+  color: var(--text);
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 
-        .card-content .subtitle {
-            font-size: 0.95rem;
-            color: #495057;
-        }
+.contact-value:hover {
+  color: var(--accent1);
+}

@@ -1,61 +1,55 @@
-import React from 'react';
-import resume from '../../data/resumeData';
-import { BsEnvelope, BsTelephone, BsLinkedin, BsGithub } from 'react-icons/bs';
+import React from "react";
+import resume from "../../data/resumeData";
+import { BsEnvelope, BsTelephone, BsLinkedin, BsGeoAlt } from "react-icons/bs";
 // Import the new, advanced CSS
-import './Contact.css';
+import "./Contact.css";
 
 export default function Contact() {
-  const contactMethods = [
+  const contactInfo = [
     {
       icon: <BsEnvelope className="icon" />,
-      title: 'Email',
-      subtitle: resume.contact.email,
+      title: "Email",
+      value: resume.contact.email,
       link: `mailto:${resume.contact.email}`,
     },
     {
       icon: <BsTelephone className="icon" />,
-      title: 'Call',
-      subtitle: resume.contact.phone,
+      title: "Phone",
+      value: resume.contact.phone,
       link: `tel:${resume.contact.phone}`,
     },
     {
-      icon: <BsLinkedin className="icon" />,
-      title: 'LinkedIn',
-      subtitle: 'Profile',
-      link: resume.contact.linkedin,
+      icon: <BsGeoAlt className="icon" />,
+      title: "Location",
+      value: "Hyderabad, India",
     },
     {
-      icon: <BsGithub className="icon" />,
-      title: 'GitHub',
-      subtitle: 'Code & Projects',
-      link: resume.contact.github,
+      icon: <BsLinkedin className="icon" />,
+      title: "LinkedIn",
+      value: "Kollimarla Sai Sanjay",
+      link: "https://www.linkedin.com/in/kollimarla-sai-sanjay/",
     },
   ];
-
   return (
     // Add 'contact-section-advanced' for the animated background
-    <section id="contact" className="section contact-section-advanced m-5 rounded">
-      <div className="container">
-        <h2 className="contact-section-header fw-bold">Get in Touch</h2>
-        <p className="section-subtitle text-secondary fw-medium">
-          I'm currently open to new opportunities. Feel free to reach out.
-        </p>
-        <div className="d-flex align-items-center justify-content-center gap-2">
-          {contactMethods.map((method, index) => (
-            <a
-              key={index}
-              href={method.link}
-              className="contact-card"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {/* This inner div is for the 3D parallax effect */}
-              <div className="card-content rounded-5">
-                {method.icon}
-                <span className="title">{method.title}</span>
-                <span className="subtitle">{method.subtitle}</span>
+    <section id="contact" className="section">
+      <div className="contact-container">
+        <h2 className="contact-title">Get In Touch</h2>
+        <div className="contact-grid">
+          {contactInfo.map((item, index) => (
+            <div key={index} className="contact-item">
+              <div className="contact-icon">{item.icon}</div>
+              <div className="contact-details">
+                <h3>{item.title}</h3>
+                {item.link ? (
+                  <a href={item.link} className="contact-value">
+                    {item.value}
+                  </a>
+                ) : (
+                  <span className="contact-value">{item.value}</span>
+                )}
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
