@@ -150,7 +150,7 @@ const resume = {
   ],
   certificates: [
     {
-      name: "Developer Foundation",
+      name: "Developer Foundations",
       link: "https://certificates.ccbp.in/academy/developer-foundations?id=KGJTRJLQWT",
       company: "Nxtwave",
       file: "/certificates/Developer Foundation.jpg",
@@ -164,7 +164,7 @@ const resume = {
       "company-logo": "/company_logo/nextWave.png",
     },
     {
-      name: "Introduction of Databases",
+      name: "Introduction to Databases",
       link: "https://certificates.ccbp.in/academy/introduction-to-databases?id=HTZBFFCYSB",
       company: "Nxtwave",
       file: "/certificates/Databases.jpg",
