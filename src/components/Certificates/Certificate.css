@@ -23,7 +23,7 @@
 
 .certificate-image {
   width: 100%;
-  height: 360px;
+  height: 200px;
   aspect-ratio: 4/3;
   overflow: hidden;
   position: relative;
@@ -206,7 +206,7 @@
   }
 
   .certificate-image {
-    height: 360px;
+    height: 200px;
   }
 
   .certificate-content {
