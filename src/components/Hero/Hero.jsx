@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import resume from '../../data/resumeData'
 import { Howl } from 'howler'
 import clickMp3 from '../../assets/sounds/click.mp3'
+import './Hero.css'
 
 const clickSound = new Howl({ src: [clickMp3], volume: 0.18 })
 
