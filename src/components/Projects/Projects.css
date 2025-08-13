@@ -1,0 +1,35 @@
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.project-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-2);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+}
+
+.techs {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 8px 0 12px;
+}
+
+.project-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.project-actions .link {
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.project-actions .link:hover {
+  color: var(--accent1);
+}

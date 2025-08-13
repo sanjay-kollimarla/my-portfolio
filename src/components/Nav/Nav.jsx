@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Nav.css';
 
 export default function Nav() {
   const sections = ["about", "skills", "projects", "certifications", "contact"];
