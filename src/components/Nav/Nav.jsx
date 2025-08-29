@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Nav.css';
 
 export default function Nav() {
   const sections = ["about", "skills", "projects", "certifications", "contact"];
@@ -75,8 +76,8 @@ export default function Nav() {
   return (
     <header className="nav">
       <div className="container nav-inner">
-        <a className="brand" href="">
-          <i className="bi bi-file-code fs-2 text-white"></i>
+        <a className="brand" href="#home">
+          <i className="bi bi-file-code text-white"></i>
         </a>
         <button
           className={`hamburger ${isMenuOpen ? "nav-open" : ""}`}

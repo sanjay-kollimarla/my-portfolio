@@ -1,0 +1,19 @@
+.footer {
+  padding: 28px 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.footer p {
+  font-size: 14px;
+}
+
+.footer a {
+  color: var(--accent1);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.footer a:hover {
+  color: var(--accent2);
+}
