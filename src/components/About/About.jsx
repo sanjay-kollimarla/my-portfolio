@@ -1,4 +1,3 @@
-import React from 'react'
 import resume from '../../data/resumeData'
 
 export default function About(){

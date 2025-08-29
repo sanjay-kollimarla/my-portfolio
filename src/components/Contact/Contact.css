@@ -1,174 +1,34 @@
-.section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background: var(--bg);
-}
+.contact-card {
+  width: 15rem;
+  height: 10rem;
+  word-break: break-word;
 
-.contact-container {
-  width: 100%;
-  max-width: 800px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-        /* Creating the animated "blobs" */
-        .contact-section-advanced::before,
-        .contact-section-advanced::after {
-            content: '';
-            position: absolute;
-            z-index: -1; /* Place blobs behind content */
-            border-radius: 50%;
-            filter: blur(100px);
-        }
-
-        /* First blob */
-        .contact-section-advanced::before {
-            width: 400px;
-            height: 400px;
-            background: rgba(13, 110, 253, 0.15);
-            top: -100px;
-            left: -100px;
-            animation: move-blob-1 15s infinite alternate;
-        }
-
-        /* Second blob */
-        .contact-section-advanced::after {
-            width: 350px;
-            height: 350px;
-            background: rgba(253, 13, 169, 0.1);
-            bottom: -150px;
-            right: -150px;
-            animation: move-blob-2 18s infinite alternate;
-        }
-
-
-
-        /* --- 2. LAYOUT AND CARD STYLING --- */
-.contact-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.contact-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2.5rem 1.5rem;
-            height: 100%;
-            border-radius: 14px;
-            /* Glassmorphism Effect */
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            /* Parallax Effect Setup */
-    
-        }
-
-        /* --- 3. HOVER EFFECTS --- */
-        .contact-card:hover {
-            transform: scale(1.05) rotateX(10deg) rotateY(5deg);
-        }
-
-        /* .contact-card:hover .card-content {
-            transform: translateZ(40px) translateY(-10px);
-        } */
-
-        .contact-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            padding: 2px; /* Border thickness */
-            background: linear-gradient(45deg, #007bff, #ff00c8);
-            -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-           
-            z-index: -1;
-        }
-
-        .contact-card:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes rotate-border {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-.contact-title {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 2.5rem;
-  color: var(--text);
-  margin-bottom: 2rem;
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.title-icon {
-  font-size: 2rem;
-  color: var(--accent1);
-}
-
-.contact-icon {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.contact-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  /* align exactly with border */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  /* width of glow */
+  height: 7px;
+  /* glow thickness */
   border-radius: 50%;
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
-  color: white;
-  font-size: 1.5rem;
+  background: radial-gradient(ellipse at center,
+      rgba(255, 255, 255, 0.849) 5%,
+      rgba(141, 6, 182, 0.6) 40%,
+      transparent 100%);
+  filter: blur(2px);
+  pointer-events: none;
 }
 
-.contact-details h3 {
-  color: var(--muted);
-  font-size: 1rem;
-  margin: 0 0 0.5rem 0;
-}
-
-.contact-value {
-  color: var(--text);
-  font-size: 1.1rem;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.contact-value:hover {
-  color: var(--accent1);
+.contact-card-content {
+  color: rgb(159, 166, 230);
 }
