@@ -52,7 +52,7 @@ function FlowRow({ flow, accent }: { flow: string[]; accent: string }) {
           </div>
         ))}
       </div>
-      <div className="mt-3 flex h-8 items-end gap-1 [@media(max-height:820px)]:hidden">
+      <div className="mt-3 flex h-8 items-end gap-1 ">
         {Array.from({ length: 24 }, (_, i) => (
           <motion.span
             key={i}
