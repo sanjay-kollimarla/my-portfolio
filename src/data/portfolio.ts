@@ -78,17 +78,17 @@ export const experience = [
       "Owned features through architecture, implementation, deployment, production support and performance optimization.",
     ],
   },
-  {
-    company: "Freelance",
-    role: "Full Stack Developer",
-    period: "May 2023 — Jan 2024",
-    year: "2023",
-    tags: ["MEAN", "MERN", "Caching", "Indexing"],
-    points: [
-      "Delivered end-to-end MEAN/MERN applications from requirements gathering through architecture, development and deployment for 5+ SME clients.",
-      "Optimized API response times by up to 40% through database query optimization, indexing and caching.",
-    ],
-  },
+  // {
+  //   company: "Freelance",
+  //   role: "Full Stack Developer",
+  //   period: "May 2023 — Jan 2024",
+  //   year: "2023",
+  //   tags: ["MEAN", "MERN", "Caching", "Indexing"],
+  //   points: [
+  //     "Delivered end-to-end MEAN/MERN applications from requirements gathering through architecture, development and deployment for 5+ SME clients.",
+  //     "Optimized API response times by up to 40% through database query optimization, indexing and caching.",
+  //   ],
+  // },
   {
     company: "Upgrad Insofe",
     role: "Junior Software Engineer",

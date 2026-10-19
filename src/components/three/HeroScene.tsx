@@ -1,5 +1,6 @@
 "use client";
 
+import "./quietConsole";
 import { Environment, Float, Lightformer, Sparkles } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";

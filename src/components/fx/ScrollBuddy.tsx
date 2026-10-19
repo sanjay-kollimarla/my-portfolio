@@ -124,8 +124,11 @@ export default function ScrollBuddy() {
   // Byte tucks into the bottom-right corner instead of crossing over the content
   const parkTarget = useMotionValue(0);
   const park = useSpring(parkTarget, { stiffness: 60, damping: 16 });
-  const xFinal = useTransform([xNorm, park], ([x, k]: number[]) => x + (0.97 - x) * k);
-  const yFinal = useTransform([yNorm, park], ([y, k]: number[]) => y + (0.8 - y) * k);
+  // where to park (fractions of the screen); springs so he glides between spots
+  const parkX = useSpring(useMotionValue(0.97), { stiffness: 60, damping: 16 });
+  const parkY = useSpring(useMotionValue(0.8), { stiffness: 60, damping: 16 });
+  const xFinal = useTransform([xNorm, park, parkX], ([x, k, px]: number[]) => x + (px - x) * k);
+  const yFinal = useTransform([yNorm, park, parkY], ([y, k, py]: number[]) => y + (py - y) * k);
   const left = useTransform(xFinal, (x) => `calc(${(x * 100).toFixed(3)}vw - ${(x * 7).toFixed(3)}rem)`);
   const top = useTransform(yFinal, (y) => `${(y * 100).toFixed(3)}vh`);
   // bank into turns: lean toward the direction of horizontal travel
@@ -138,8 +141,17 @@ export default function ScrollBuddy() {
 
   const [section, setSection] = useState("home");
   useEffect(() => {
-    parkTarget.set(section === "work" ? 1 : 0);
-  }, [section, parkTarget]);
+    // Work: bottom-right corner, clear of the sliding panels.
+    // Contact/footer: the empty space on the right edge, clear of the contact details.
+    if (section === "work") {
+      parkX.set(0.97);
+      parkY.set(0.8);
+    } else if (section === "contact") {
+      parkX.set(0.97);
+      parkY.set(0.48);
+    }
+    parkTarget.set(section === "work" || section === "contact" ? 1 : 0);
+  }, [section, parkTarget, parkX, parkY]);
   const [say, setSay] = useState<string | null>(null);
   const [blink, setBlink] = useState(false);
   const [wave, setWave] = useState(false);
