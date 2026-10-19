@@ -1,0 +1,602 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-grotesk);
+  --font-mono: var(--font-jetbrains);
+  --color-ink: #05060f;
+  --color-surface: #0b0d1c;
+}
+
+:root {
+  --bg: #0a070e;
+  --fg: #e8eaf6;
+  --muted: #9aa0c3;
+  --violet: #7c5cff;
+  --cyan: #c084fc;
+  --pink: #f472b6;
+}
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+  /* stop decorative overflow (meteors, glows) from widening the mobile layout viewport,
+     which would push fixed UI like the header off-screen */
+  overflow-x: clip;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(124, 92, 255, 0.45);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--violet), var(--cyan));
+  border-radius: 99px;
+}
+
+/* Hide native cursor only once the custom cursor has mounted */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+/* ---------- Glass + Neomorphism ---------- */
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.025) 100%
+  );
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    0 30px 60px -25px rgba(0, 0, 0, 0.7);
+}
+
+.glass-strong {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 30px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+.neo {
+  background: linear-gradient(145deg, #150f1d, #0c0911);
+  box-shadow:
+    10px 10px 24px #040306,
+    -8px -8px 22px #1d1528,
+    inset 1px 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.neo-inset {
+  background: #0c0911;
+  box-shadow:
+    inset 6px 6px 14px #040306,
+    inset -6px -6px 14px #1d1528;
+}
+
+.neo-btn {
+  background: linear-gradient(145deg, #171120, #0d0a12);
+  box-shadow:
+    6px 6px 16px #040306,
+    -5px -5px 14px #1f172b,
+    inset 1px 1px 0 rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+.neo-btn:hover {
+  box-shadow:
+    inset 5px 5px 12px #040306,
+    inset -5px -5px 12px #1f172b;
+}
+
+/* ---------- Text ---------- */
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    #c4b5fd 0%,
+    #a855f7 25%,
+    #f0abfc 50%,
+    #c4b5fd 75%,
+    #a855f7 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-x 9s linear infinite;
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+  color: transparent;
+}
+
+@keyframes gradient-x {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+/* ---------- Animated conic border ---------- */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border {
+  position: relative;
+  isolation: isolate;
+}
+.gradient-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0%,
+    transparent 55%,
+    var(--violet) 70%,
+    var(--cyan) 82%,
+    var(--pink) 92%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-angle 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ---------- Spotlight (follows --mx / --my) ---------- */
+.spotlight {
+  position: relative;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    450px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(124, 92, 255, 0.2),
+    rgba(240, 171, 252, 0.06) 35%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Background FX ---------- */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.blob-1 {
+  animation: float-1 22s ease-in-out infinite alternate;
+}
+.blob-2 {
+  animation: float-2 26s ease-in-out infinite alternate;
+}
+.blob-3 {
+  animation: float-3 30s ease-in-out infinite alternate;
+}
+
+@keyframes float-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18vw, 12vh) scale(1.25); }
+  100% { transform: translate(-6vw, 30vh) scale(0.9); }
+}
+@keyframes float-2 {
+  0% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-22vw, 18vh) scale(0.85); }
+  100% { transform: translate(-8vw, -10vh) scale(1.2); }
+}
+@keyframes float-3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(14vw, -20vh) scale(1.2); }
+  100% { transform: translate(-16vw, -6vh) scale(1); }
+}
+
+/* ---------- Marquee ---------- */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Misc ---------- */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.8s ease;
+}
+.shine:hover::after {
+  left: 150%;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--cyan);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.orbit-spin {
+  animation: orbit 40s linear infinite;
+}
+.orbit-spin-rev {
+  animation: orbit 40s linear infinite reverse;
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ================= Magic UI effects ================= */
+
+/* Border beam: a light travelling along the border */
+.beam-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--beam-width, 1.5px);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.beam {
+  position: absolute;
+  width: var(--beam-size, 180px);
+  aspect-ratio: 1;
+  offset-path: rect(0 auto auto 0 round var(--beam-size, 180px));
+  background: linear-gradient(to left, var(--beam-from, #a855f7), var(--beam-to, #22d3ee), transparent);
+  animation: border-beam var(--beam-duration, 8s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+}
+@keyframes border-beam {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+/* Shimmer button: spinning spark around the edge */
+.shimmer-spin {
+  animation: spin-slow 3s linear infinite;
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rainbow button */
+.rainbow-btn {
+  --c1: #f43f5e;
+  --c2: #f59e0b;
+  --c3: #22c55e;
+  --c4: #22d3ee;
+  --c5: #a855f7;
+  background:
+    linear-gradient(#120d18, #120d18) padding-box,
+    linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c1)) border-box;
+  background-size: 100% 100%, 200% 100%;
+  border: 2px solid transparent;
+  animation: rainbow 3s linear infinite;
+  position: relative;
+}
+.rainbow-btn::before {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: 15%;
+  z-index: -1;
+  height: 40%;
+  width: 70%;
+  background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c1));
+  background-size: 200% 100%;
+  filter: blur(14px);
+  animation: rainbow 3s linear infinite;
+}
+@keyframes rainbow {
+  to {
+    background-position: 0 0, 200% 0;
+  }
+}
+.rainbow-btn::before {
+  animation-name: rainbow-glow;
+}
+@keyframes rainbow-glow {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* Multi-colour aurora text */
+.aurora-text {
+  background: linear-gradient(
+    90deg,
+    #c084fc,
+    #f472b6,
+    #fb923c,
+    #facc15,
+    #34d399,
+    #22d3ee,
+    #818cf8,
+    #c084fc
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aurora-x 10s ease-in-out infinite alternate;
+}
+@keyframes aurora-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Shiny sweeping text */
+.shiny-text {
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.55) 35%, #fff 50%, rgba(255, 255, 255, 0.55) 65%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shiny 3s linear infinite;
+}
+@keyframes shiny {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Meteors */
+.meteor {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 12px 2px rgba(192, 132, 252, 0.8);
+  transform: rotate(215deg);
+  animation: meteor linear infinite;
+}
+.meteor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, #e9d5ff, transparent);
+}
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-900px);
+    opacity: 0;
+  }
+}
+
+/* Ripple rings */
+.ripple-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%) scale(1);
+  animation: ripple 3.4s ease-out infinite;
+}
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 0;
+  }
+}
+
+/* Orbit helpers */
+.orbit {
+  animation: orbit var(--orbit-duration, 20s) linear infinite;
+}
+.orbit-reverse {
+  animation: orbit var(--orbit-duration, 20s) linear infinite reverse;
+}
+
+.float-y {
+  animation: float-y 3s ease-in-out infinite;
+}
+@keyframes float-y {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Tech-stack circuit board: data pulses along copper traces */
+.trace-pulse {
+  stroke-dasharray: 0.06 0.94;
+  animation: trace-pulse 2.4s linear infinite both;
+}
+@keyframes trace-pulse {
+  from {
+    stroke-dashoffset: 0.06;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+.bus-pulse {
+  animation: bus-pulse 2.6s linear infinite;
+}
+@keyframes bus-pulse {
+  from {
+    top: -6rem;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+.ribbon-shine {
+  animation: ribbon-shine 5s ease-in-out infinite;
+}
+@keyframes ribbon-shine {
+  from {
+    left: -30%;
+  }
+  to {
+    left: 130%;
+  }
+}
+
+/* Byte's jet flame flicker (CSS keeps it off the JS thread) */
+.bb-flame {
+  animation: bb-flame 0.18s ease-in-out infinite alternate;
+}
+@keyframes bb-flame {
+  from {
+    transform: scaleY(0.8);
+    opacity: 0.85;
+  }
+  to {
+    transform: scaleY(1.15);
+    opacity: 1;
+  }
+}
