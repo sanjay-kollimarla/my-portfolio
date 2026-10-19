@@ -127,7 +127,7 @@ export default function Header({ hasResume }: { hasResume: boolean }) {
               transition={{ type: "spring", stiffness: 200, damping: 12 }}
             >
               <span className="orbit absolute inset-[-40%] bg-[conic-gradient(#a855f7,#22d3ee,#f472b6,#facc15,#a855f7)] [--orbit-duration:4s]" />
-              <span className="absolute inset-[2px] rounded-[10px] bg-[#0d0a14]" />
+              <span className="absolute inset-[2px] rounded-[10px] bg-[#1e1548]" />
               <span className="relative font-display text-sm font-bold aurora-text">SK</span>
             </motion.span>
           </button>
@@ -171,7 +171,7 @@ export default function Header({ hasResume }: { hasResume: boolean }) {
             transition={{ duration: 0.3 }}
           >
             {/* dimmed backdrop, tap to close */}
-            <button aria-label="Close menu" onClick={() => setOpen(false)} className="absolute inset-0 bg-[#05040a]/70 backdrop-blur-md" />
+            <button aria-label="Close menu" onClick={() => setOpen(false)} className="absolute inset-0 bg-[#140c34]/70 backdrop-blur-md" />
             <motion.nav
               className="glass-strong absolute inset-x-3 top-20 overflow-hidden rounded-3xl p-3"
               initial={{ y: -24, opacity: 0, scale: 0.96 }}

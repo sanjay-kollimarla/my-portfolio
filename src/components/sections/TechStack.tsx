@@ -102,7 +102,7 @@ function ChipCard({
         className="relative rounded-2xl border p-4 pt-5 transition-shadow duration-500"
         style={{
           borderColor: active ? c : `${c}40`,
-          background: "linear-gradient(160deg, rgba(22,18,34,0.92), rgba(10,8,16,0.95))",
+          background: "linear-gradient(160deg, rgba(48,34,110,0.78), rgba(28,19,72,0.85))",
           boxShadow: active ? `0 0 45px -8px ${c}, inset 0 0 30px -12px ${c}` : `0 10px 40px -20px ${c}`,
         }}
       >
@@ -195,7 +195,7 @@ function Cpu({ on, hoverColor, innerRef }: { on: boolean; hoverColor: string | n
         {/* spinning conic rim */}
         <div className="absolute inset-0 overflow-hidden rounded-[2rem] p-[2px]">
           <div className="orbit absolute inset-[-50%] [--orbit-duration:6s]" style={{ background: `conic-gradient(from 0deg, transparent 0 55%, ${glow}, #22d3ee, transparent 90%)` }} />
-          <div className="relative h-full w-full rounded-[calc(2rem-2px)] bg-[linear-gradient(160deg,#1a1430,#0b0912)]" />
+          <div className="relative h-full w-full rounded-[calc(2rem-2px)] bg-[linear-gradient(160deg,#2c1e64,#1d1445)]" />
         </div>
         <Pins side="top" count={10} color={glow} />
         <Pins side="bottom" count={10} color={glow} />
@@ -362,7 +362,7 @@ function Board() {
                 cx={t.via[0]}
                 cy={t.via[1]}
                 r={hot ? 5 : 3.5}
-                fill="#0b0912"
+                fill="#1d1445"
                 stroke={t.color}
                 strokeWidth={2}
                 initial={{ scale: 0 }}

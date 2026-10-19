@@ -9,7 +9,7 @@
 }
 
 :root {
-  --bg: #0a070e;
+  --bg: #160e38;
   --fg: #e8eaf6;
   --muted: #9aa0c3;
   --violet: #7c5cff;
@@ -69,14 +69,14 @@ html.custom-cursor * {
 .glass {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.09) 0%,
-    rgba(255, 255, 255, 0.025) 100%
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.05) 100%
   );
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(255, 255, 255, 0.03),
     0 30px 60px -25px rgba(0, 0, 0, 0.7);
 }
@@ -84,8 +84,8 @@ html.custom-cursor * {
 .glass-strong {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    rgba(255, 255, 255, 0.04) 100%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.07) 100%
   );
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
@@ -96,32 +96,32 @@ html.custom-cursor * {
 }
 
 .neo {
-  background: linear-gradient(145deg, #150f1d, #0c0911);
+  background: linear-gradient(145deg, #2a1c60, #1b1342);
   box-shadow:
-    10px 10px 24px #040306,
-    -8px -8px 22px #1d1528,
+    10px 10px 24px #0d0826,
+    -8px -8px 22px #3a2a7c,
     inset 1px 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .neo-inset {
-  background: #0c0911;
+  background: #1b1342;
   box-shadow:
-    inset 6px 6px 14px #040306,
-    inset -6px -6px 14px #1d1528;
+    inset 6px 6px 14px #0d0826,
+    inset -6px -6px 14px #3a2a7c;
 }
 
 .neo-btn {
-  background: linear-gradient(145deg, #171120, #0d0a12);
+  background: linear-gradient(145deg, #2c1e64, #1d1445);
   box-shadow:
-    6px 6px 16px #040306,
-    -5px -5px 14px #1f172b,
+    6px 6px 16px #0d0826,
+    -5px -5px 14px #3d2c82,
     inset 1px 1px 0 rgba(255, 255, 255, 0.06);
   transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 .neo-btn:hover {
   box-shadow:
-    inset 5px 5px 12px #040306,
-    inset -5px -5px 12px #1f172b;
+    inset 5px 5px 12px #0d0826,
+    inset -5px -5px 12px #3d2c82;
 }
 
 /* ---------- Text ---------- */
@@ -398,7 +398,7 @@ html.custom-cursor * {
   --c4: #22d3ee;
   --c5: #a855f7;
   background:
-    linear-gradient(#120d18, #120d18) padding-box,
+    linear-gradient(#22174f, #22174f) padding-box,
     linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c1)) border-box;
   background-size: 100% 100%, 200% 100%;
   border: 2px solid transparent;
@@ -614,14 +614,14 @@ html.custom-cursor * {
 .edge-blur-top {
   top: 0;
   height: 110px;
-  background: linear-gradient(to bottom, rgba(10, 7, 14, 0.75), transparent);
+  background: linear-gradient(to bottom, rgba(22, 14, 56, 0.75), transparent);
   mask-image: linear-gradient(to bottom, #000 35%, transparent);
   -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent);
 }
 .edge-blur-bottom {
   bottom: 0;
   height: 90px;
-  background: linear-gradient(to top, rgba(10, 7, 14, 0.7), transparent);
+  background: linear-gradient(to top, rgba(22, 14, 56, 0.7), transparent);
   mask-image: linear-gradient(to top, #000 30%, transparent);
   -webkit-mask-image: linear-gradient(to top, #000 30%, transparent);
 }

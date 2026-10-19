@@ -29,7 +29,7 @@ export default function ProfileOrbit({ size = 150, priority = false }: { size?: 
       <div className="relative rounded-full p-[3px]" style={{ width: size, height: size }}>
         <span className="orbit absolute inset-0 rounded-full bg-[conic-gradient(#a855f7,#22d3ee,#f472b6,#facc15,#34d399,#a855f7)] blur-[2px] [--orbit-duration:5s]" />
         <span className="absolute inset-[-12px] rounded-full bg-[conic-gradient(#a855f7,#22d3ee,#f472b6,#facc15,#a855f7)] opacity-40 blur-2xl" />
-        <div className="relative h-full w-full overflow-hidden rounded-full bg-[#0d0a14]">
+        <div className="relative h-full w-full overflow-hidden rounded-full bg-[#1e1548]">
           <Image
             src="/me.webp"
             alt="Kollimarla Sai Sanjay"

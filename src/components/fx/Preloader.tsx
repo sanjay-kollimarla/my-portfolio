@@ -34,7 +34,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-[#0a070e]"
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-[#160e38]"
       exit={{ clipPath: "inset(0 0 100% 0)" }}
       initial={{ clipPath: "inset(0 0 0% 0)" }}
       transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}

@@ -189,7 +189,7 @@ export default function Hero() {
         >
           <span className="relative flex h-12 w-7 justify-center overflow-hidden rounded-full p-[1.5px]">
             <span className="shimmer-spin absolute inset-[-60%] bg-[conic-gradient(from_0deg,transparent_0_250deg,#a855f7,#22d3ee,transparent)]" />
-            <span className="relative flex h-full w-full justify-center rounded-full bg-[#0d0a14] pt-2">
+            <span className="relative flex h-full w-full justify-center rounded-full bg-[#1e1548] pt-2">
               <motion.span
                 className="h-2 w-1 rounded-full bg-gradient-to-b from-violet-300 to-cyan-300"
                 animate={{ y: [0, 18, 0], opacity: [1, 0.2, 1] }}

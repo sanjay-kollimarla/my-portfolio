@@ -70,12 +70,12 @@ export default function Background() {
   const orbY = useTransform(scrollYProgress, [0, 1], ["0vh", "-60vh"]);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#0a070e]">
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[linear-gradient(160deg,#1f1150_0%,#160e38_45%,#10183f_100%)]">
       {/* aurora blobs */}
       <div className="absolute inset-0">
-        <div className="blob blob-1 left-[-12%] top-[-15%] h-[42vw] w-[42vw] bg-[#6d28d9] opacity-45!" />
-        <div className="blob blob-2 right-[-14%] top-[5%] h-[38vw] w-[38vw] bg-[#c026d3] opacity-40!" />
-        <div className="blob blob-3 bottom-[-20%] left-[20%] h-[40vw] w-[40vw] bg-[#0e7490] opacity-35!" />
+        <div className="blob blob-1 left-[-12%] top-[-15%] h-[42vw] w-[42vw] bg-[#7c3aed] opacity-60!" />
+        <div className="blob blob-2 right-[-14%] top-[5%] h-[38vw] w-[38vw] bg-[#d946ef] opacity-50!" />
+        <div className="blob blob-3 bottom-[-20%] left-[20%] h-[40vw] w-[40vw] bg-[#0891b2] opacity-50!" />
       </div>
 
       {/* lilac orb, top-left */}
@@ -89,7 +89,7 @@ export default function Background() {
 
       <Starfield />
       <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(10,7,14,0.7)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(22,14,56,0.45)_100%)]" />
       <div className="noise absolute inset-0 mix-blend-normal!" />
     </div>
   );
