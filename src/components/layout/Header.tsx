@@ -128,7 +128,7 @@ export default function Header({ hasResume }: { hasResume: boolean }) {
             >
               <span className="orbit absolute inset-[-40%] bg-[conic-gradient(#a855f7,#22d3ee,#f472b6,#facc15,#a855f7)] [--orbit-duration:4s]" />
               <span className="absolute inset-[2px] rounded-[10px] bg-[#0d0a14]" />
-              <span className="relative font-display text-sm font-bold aurora-text">SS</span>
+              <span className="relative font-display text-sm font-bold aurora-text">SK</span>
             </motion.span>
           </button>
 

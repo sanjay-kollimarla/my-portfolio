@@ -15,6 +15,16 @@ export function scrollToId(id: string) {
   }
 }
 
+/** Smoothly scroll the page to an absolute Y position (through Lenis when active). */
+export function scrollToY(target: number) {
+  if (lenisInstance) lenisInstance.scrollTo(target, { duration: 0.5 });
+  else window.scrollTo({ top: target });
+}
+
+export function currentScroll() {
+  return lenisInstance ? lenisInstance.targetScroll : window.scrollY;
+}
+
 export function setScrollLocked(locked: boolean) {
   if (!lenisInstance) return;
   if (locked) lenisInstance.stop();

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { currentScroll, scrollToY } from "@/components/fx/SmoothScroll";
 import { profile, projects } from "@/data/portfolio";
 import { ArrowIcon, GithubIcon } from "@/components/ui/Icons";
 import Magnetic from "@/components/ui/Magnetic";
@@ -17,7 +18,7 @@ const beamTo = ["#22d3ee", "#facc15", "#a855f7"];
 function FlowRow({ flow, accent }: { flow: string[]; accent: string }) {
   return (
     <div className="neo-inset relative overflow-hidden rounded-2xl p-4">
-      <div className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-white/40">
+      <div className="mb-3 flex items-center justify-between [@media(max-height:820px)]:mb-2 font-mono text-[10px] uppercase tracking-widest text-white/40">
         <span>Architecture</span>
         <span className="flex items-center gap-1.5 text-emerald-300/80">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> live
@@ -51,7 +52,7 @@ function FlowRow({ flow, accent }: { flow: string[]; accent: string }) {
           </div>
         ))}
       </div>
-      <div className="mt-3 flex h-8 items-end gap-1">
+      <div className="mt-3 flex h-8 items-end gap-1 [@media(max-height:820px)]:hidden">
         {Array.from({ length: 24 }, (_, i) => (
           <motion.span
             key={i}
@@ -68,7 +69,7 @@ function FlowRow({ flow, accent }: { flow: string[]; accent: string }) {
 
 function Panel({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="group relative flex h-full w-[86vw] shrink-0 flex-col border-r border-white/10 px-6 py-8 sm:w-[60vw] md:px-10 lg:w-[38vw] xl:w-[34vw]">
+    <article className="group relative flex h-full w-[86vw] shrink-0 flex-col overflow-hidden border-r border-white/10 px-6 py-8 [@media(max-height:820px)]:py-4 sm:w-[60vw] md:px-10 lg:w-[38vw] xl:w-[34vw]">
       <BorderBeam size={260} duration={10} delay={index * 3} from={project.accent} to={beamTo[index % beamTo.length]} width={1} />
       <div
         className="pointer-events-none absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full opacity-20 blur-[90px] transition-opacity duration-700 group-hover:opacity-60"
@@ -76,7 +77,7 @@ function Panel({ project, index }: { project: Project; index: number }) {
       />
       <div className="relative flex items-start justify-between gap-4">
         <motion.span
-          className="font-display text-5xl font-bold md:text-6xl"
+          className="font-display text-5xl font-bold md:text-6xl [@media(max-height:820px)]:text-4xl [@media(max-height:820px)]:md:text-5xl"
           style={{ color: project.accent, textShadow: `0 0 30px ${project.accent}88` }}
           whileHover={{ scale: 1.15, rotate: -6 }}
         >
@@ -92,7 +93,7 @@ function Panel({ project, index }: { project: Project; index: number }) {
         {project.tagline}
       </p>
 
-      <div className="relative mt-5">
+      <div className="relative mt-5 [@media(max-height:820px)]:mt-3">
         <p className="font-display text-base font-semibold">Tools and features</p>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {project.stack.map((s, i) => (
@@ -112,16 +113,16 @@ function Panel({ project, index }: { project: Project; index: number }) {
         </div>
       </div>
 
-      <ul className="relative mt-5 space-y-2">
+      <ul className="relative mt-5 space-y-2 [@media(max-height:820px)]:mt-3 [@media(max-height:820px)]:space-y-1">
         {project.points.map((p, pi) => (
-          <li key={p} className={`gap-2.5 text-[13px] leading-snug text-white/65 ${pi >= 3 ? "hidden sm:flex" : "flex"}`}>
+          <li key={p} className={`gap-2.5 text-[13px] leading-snug text-white/65 ${pi >= 3 ? "hidden sm:flex [@media(max-height:820px)]:hidden" : "flex"}`}>
             <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rotate-45" style={{ background: project.accent }} />
             {p}
           </li>
         ))}
       </ul>
 
-      <div className="relative mt-auto pt-6 transition-transform duration-700 group-hover:-translate-y-1">
+      <div className="relative mt-auto pt-6 [@media(max-height:820px)]:pt-3 [@media(max-height:700px)]:hidden transition-transform duration-700 group-hover:-translate-y-1">
         <FlowRow flow={project.flow} accent={project.accent} />
       </div>
     </article>
@@ -150,21 +151,48 @@ export default function Work() {
     };
   }, []);
 
+  // extra scroll distance at each end where the panels stay put, so the
+  // page doesn't jump to the next section the moment you reach the last project
+  const hold = Math.round(vh * 0.35);
+  const total = dist + hold * 2;
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
   const smoothP = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-  const x = useTransform(smoothP, (v) => -v * dist);
-  const bar = useTransform(smoothP, [0, 1], ["0%", "100%"]);
+  const along = useTransform(smoothP, (v) => (dist ? Math.min(1, Math.max(0, (v * total - hold) / dist)) : 0));
+  const x = useTransform(along, (v) => -v * dist);
+  const bar = useTransform(along, [0, 1], ["0%", "100%"]);
+
+  // sideways trackpad swipes / shift+wheel move the panels only and stop at the ends
+  useEffect(() => {
+    const el = section.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      const dx = e.shiftKey && !e.deltaX ? e.deltaY : e.deltaX;
+      if (Math.abs(dx) <= Math.abs(e.deltaY) && !e.shiftKey) return;
+      const start = el.getBoundingClientRect().top + window.scrollY;
+      const now = currentScroll();
+      // only while the panels are pinned on screen
+      if (now < start - 2 || now > start + total + 2) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const lo = start + hold;
+      const hi = start + hold + dist;
+      const next = Math.min(hi, Math.max(lo, now + dx * 1.4));
+      scrollToY(next);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [dist, hold, total]);
 
   return (
-    <section id="work" ref={section} className="relative z-10" style={{ height: dist + vh }}>
-      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pt-24">
+    <section id="work" ref={section} className="relative z-10" style={{ height: total + vh }}>
+      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pt-24 [@media(max-height:820px)]:pt-20">
         <div className="absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_20%,transparent_75%)]">
           <FlickeringGrid />
         </div>
         <div className="flex items-end justify-between px-6 md:px-[7vw]">
           <div>
             <ScrambleText text="04 // SELECTED WORK" className="font-mono text-xs tracking-[0.3em] text-amber-300/80" />
-            <h2 className="mt-2 font-display text-5xl font-bold md:text-7xl">
+            <h2 className="mt-2 font-display text-5xl font-bold md:text-7xl [@media(max-height:820px)]:text-4xl [@media(max-height:820px)]:md:text-5xl">
               My <span className="aurora-text">Work</span>
             </h2>
           </div>
@@ -176,7 +204,7 @@ export default function Work() {
           </div>
         </div>
 
-        <div className="mt-8 flex-1 border-y border-white/10">
+        <div className="mt-8 min-h-0 flex-1 border-y border-white/10 [@media(max-height:820px)]:mt-4">
           <motion.div ref={track} style={{ x }} className="flex h-full w-max pl-6 md:pl-[7vw]">
             {projects.map((p, i) => (
               <Panel key={p.title} project={p} index={i} />

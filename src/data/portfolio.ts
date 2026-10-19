@@ -2,7 +2,7 @@ export const profile = {
   name: "Kollimarla Sai Sanjay",
   firstName: "Sai Sanjay",
   lastName: "Kollimarla",
-  initials: "SS",
+  initials: "SK",
   title: "Software Engineer",
   roles: ["Backend Engineer", "Full-Stack Developer", "System Designer"],
   location: "Hyderabad, India",

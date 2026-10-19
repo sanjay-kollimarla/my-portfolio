@@ -214,10 +214,10 @@ function Cpu({ on, hoverColor, innerRef }: { on: boolean; hoverColor: string | n
             transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
           >
             <span className="aurora-text font-display text-xl font-bold" style={{ display: "inline-block" }}>
-              SS
+              SK
             </span>
           </motion.div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">SS-9000 core</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">SK-9000 core</p>
           <p className="font-display text-lg font-bold leading-tight">Full-Stack<br />Engine</p>
           <div className="mt-1 flex gap-3 font-mono text-[10px] text-white/55">
             <span>

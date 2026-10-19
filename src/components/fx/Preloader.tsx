@@ -73,7 +73,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
               </linearGradient>
             </defs>
           </svg>
-          <span className="font-display text-4xl font-bold text-gradient">SS</span>
+          <span className="font-display text-4xl font-bold text-gradient">SK</span>
         </motion.div>
 
         <div className="h-10 overflow-hidden text-center">
