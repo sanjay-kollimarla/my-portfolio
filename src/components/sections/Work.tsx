@@ -28,7 +28,7 @@ function FlowRow({ flow, accent }: { flow: string[]; accent: string }) {
         {flow.map((node, i) => (
           <div key={node} className="flex min-w-0 flex-1 items-center">
             <motion.div
-              className="glass relative flex min-h-14 min-w-0 flex-1 items-center justify-center rounded-xl px-1.5 text-center font-mono text-[10px] leading-tight text-white/90 md:text-[10.5px]"
+              className="glass relative flex min-h-14 [@media(max-height:820px)]:min-h-10 min-w-0 flex-1 items-center justify-center rounded-xl px-1.5 text-center font-mono text-[10px] leading-tight text-white/90 md:text-[10.5px]"
             >
               <motion.span
                 aria-hidden
@@ -115,14 +115,14 @@ function Panel({ project, index }: { project: Project; index: number }) {
 
       <ul className="relative mt-5 space-y-2 [@media(max-height:820px)]:mt-3 [@media(max-height:820px)]:space-y-1">
         {project.points.map((p, pi) => (
-          <li key={p} className={`gap-2.5 text-[13px] leading-snug text-white/65 ${pi >= 3 ? "hidden sm:flex [@media(max-height:820px)]:hidden" : "flex"}`}>
+          <li key={p} className={`gap-2.5 text-[13px] leading-snug text-white/65 ${pi >= 3 ? "hidden sm:flex [@media(max-height:820px)]:hidden" : pi >= 2 ? "flex [@media(max-height:720px)]:hidden" : "flex [@media(max-height:620px)]:hidden"}`}>
             <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rotate-45" style={{ background: project.accent }} />
             {p}
           </li>
         ))}
       </ul>
 
-      <div className="relative mt-auto pt-6 [@media(max-height:820px)]:pt-3 [@media(max-height:700px)]:hidden transition-transform duration-700 group-hover:-translate-y-1">
+      <div className="relative mt-auto pt-6 [@media(max-height:820px)]:pt-3 transition-transform duration-700 group-hover:-translate-y-1">
         <FlowRow flow={project.flow} accent={project.accent} />
       </div>
     </article>

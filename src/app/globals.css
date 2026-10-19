@@ -600,3 +600,28 @@ html.custom-cursor * {
     opacity: 1;
   }
 }
+
+/* Frosted edges: content softly blurs/fades as it scrolls under the top and bottom of the screen */
+.edge-blur {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.edge-blur-top {
+  top: 0;
+  height: 110px;
+  background: linear-gradient(to bottom, rgba(10, 7, 14, 0.75), transparent);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent);
+}
+.edge-blur-bottom {
+  bottom: 0;
+  height: 90px;
+  background: linear-gradient(to top, rgba(10, 7, 14, 0.7), transparent);
+  mask-image: linear-gradient(to top, #000 30%, transparent);
+  -webkit-mask-image: linear-gradient(to top, #000 30%, transparent);
+}
