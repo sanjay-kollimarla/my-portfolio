@@ -156,7 +156,6 @@ export default function GlbAvatar({
   const look = useRef({ x: 0, y: 0 });
   const waveT = useRef(0);
   const blink = useRef({ next: 2, t: -1 });
-  const smileCycle = useRef({ next: 3, until: 0 });
   const current = useRef<string | null>(null);
 
   const setup = useMemo(() => {
@@ -179,15 +178,15 @@ export default function GlbAvatar({
     });
     // Detailed (textured) models already look right; the upgrades are only for flat low-poly ones.
     let textured = false;
-    const smileMeshes: THREE.Mesh[] = [];
+    const blinkMeshes: THREE.Mesh[] = [];
     scene.traverse((o) => {
       const m = o as THREE.Mesh;
       if (!m.isMesh) return;
       const mats = Array.isArray(m.material) ? m.material : [m.material];
       if (mats.some((mt) => (mt as THREE.MeshStandardMaterial).map)) textured = true;
       const dict = m.morphTargetDictionary;
-      // Ready Player Me: mouthSmile · Avaturn / ARKit: mouthSmileLeft/Right, eyeBlinkLeft/Right
-      if (dict && Object.keys(dict).some((k) => /^(mouthSmile|eyeBlink)/.test(k))) smileMeshes.push(m);
+      // ARKit-style blink shapes: eyeBlinkLeft/Right
+      if (dict && Object.keys(dict).some((k) => /^eyeBlink/.test(k))) blinkMeshes.push(m);
       for (const mt of mats) {
         const sm = mt as THREE.MeshStandardMaterial;
         if (sm.map) sm.envMapIntensity = 1.1;
@@ -262,7 +261,7 @@ export default function GlbAvatar({
       shoulderAngle0 = Math.atan2(b.z - a.z, b.x - a.x);
     }
 
-    return { scale: sc, offset, head, headRest: head ? head.quaternion.clone() : null, arms, face, smileMeshes, deskAnchor, shoulderAngle0, spine, spineRest };
+    return { scale: sc, offset, head, headRest: head ? head.quaternion.clone() : null, arms, face, blinkMeshes, deskAnchor, shoulderAngle0, spine, spineRest };
   }, [gltf, enhance, glasses]);
 
   const clip = (re: RegExp) => names.find((n) => re.test(n));
@@ -356,10 +355,10 @@ export default function GlbAvatar({
     }
 
     // eyes look around and blink
-    // built-in facial expressions (e.g. Ready Player Me): friendly smile, bigger while waving
+    // built-in blink blendshapes (the model's own expression is left untouched)
     // blink timing shared by every face mesh
     const bk = blink.current;
-    if (setup.smileMeshes.length && !setup.face) {
+    if (setup.blinkMeshes.length && !setup.face) {
       if (bk.t < 0 && t > bk.next) bk.t = 0;
       if (bk.t >= 0) {
         bk.t += d;
@@ -369,22 +368,11 @@ export default function GlbAvatar({
         }
       }
     }
-    // smile now and then (and always while waving); otherwise a relaxed neutral face
-    const sm = smileCycle.current;
-    if (t > sm.next) {
-      sm.until = t + 2.2 + Math.random() * 1.6;
-      sm.next = sm.until + 5 + Math.random() * 5;
-    }
-    const smileTarget = Math.max(t < sm.until ? 1 : 0, w);
     const blinkAmt = bk.t >= 0 ? Math.sin(Math.min(1, bk.t / 0.16) * Math.PI) : 0;
-    for (const m of setup.smileMeshes) {
+    for (const m of setup.blinkMeshes) {
       const dict = m.morphTargetDictionary!;
       const inf = m.morphTargetInfluences;
       if (!inf) continue;
-      for (const key of ["mouthSmile", "mouthSmileLeft", "mouthSmileRight"]) {
-        const i = dict[key];
-        if (i !== undefined) inf[i] = THREE.MathUtils.damp(inf[i], smileTarget, 3.5, d);
-      }
       for (const key of ["eyeBlinkLeft", "eyeBlinkRight"]) {
         const i = dict[key];
         if (i !== undefined) inf[i] = blinkAmt;
