@@ -7,7 +7,7 @@ export const profile = {
   roles: ["Backend Engineer", "Full-Stack Developer", "System Designer"],
   location: "Hyderabad, India",
   phone: "+91 7997873456",
-  email: "sanju.koli2500@yahoo.com",
+  email: "sanju.koli2500@gmail.com",
   linkedin: "https://linkedin.com/in/kollimarla-sai-sanjay",
   github: "https://github.com/sanjay-kollimarla",
   summary:
