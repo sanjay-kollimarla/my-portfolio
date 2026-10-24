@@ -2,18 +2,20 @@
 
 Next.js 16 · React Three Fiber · Framer Motion · Lenis · Tailwind v4
 
-## Run locally
+## Run locally (uses [Bun](https://bun.sh))
+
+Install Bun once: `npm install -g bun` (or see bun.sh). Then:
 
 ```bash
-npm install      # first time only
-npm run dev      # http://localhost:3000
+bun install      # first time only
+bun run dev      # http://localhost:3000
 ```
 
 Production build:
 
 ```bash
-npm run build
-npm start
+bun run build
+bun run start
 ```
 
 ## Editing
