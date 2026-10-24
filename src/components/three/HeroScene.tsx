@@ -15,6 +15,9 @@ import { useLoaded } from "@/components/fx/LoadState";
 /** Where the avatar stands on desktop, as a fraction of the viewport width. */
 const HERO_X = 0.7;
 const DESK_X = 0.2;
+/** phone hero framing: closer and lower so the avatar fills the space under the headline */
+const HERO_CAM_Z = 9.5;
+const HERO_LOOK_Y = 2.3;
 
 function Director({
   state,
@@ -33,7 +36,7 @@ function Director({
   const nextWave = useRef(-1);
 
   useEffect(() => {
-    if (loaded) nextWave.current = clock.elapsedTime + 2.2;
+    if (loaded) nextWave.current = clock.elapsedTime + 1.6;
   }, [loaded, clock]);
 
   useFrame((_, delta) => {
@@ -57,7 +60,7 @@ function Director({
       // phones: the desk scene plays in an empty band at the top of About,
       // then fades before the About text scrolls over it
       st.desk = deskT;
-      st.offsetX = -0.9 * deskT;
+      st.offsetX = -0.25 + (-0.9 + 0.25) * deskT;
       opacity = 1 - clamp01((-about.top - vh * 0.02) / (vh * 0.22));
     }
     if (container.current) {
@@ -72,14 +75,14 @@ function Director({
     }
 
     const d = Math.min(delta, 0.05);
-    const camZ = desktop ? THREE.MathUtils.lerp(6.0, 6.6, deskT) : THREE.MathUtils.lerp(13.2, 11, deskT);
+    const camZ = desktop ? THREE.MathUtils.lerp(6.0, 6.6, deskT) : THREE.MathUtils.lerp(HERO_CAM_Z, 11, deskT);
     const camY = desktop ? THREE.MathUtils.lerp(1.35, 1.45, deskT) : 1.25;
     camera.position.x = THREE.MathUtils.damp(camera.position.x, 0, 4, d);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, camY, 4, d);
     camera.position.z = THREE.MathUtils.damp(camera.position.z, camZ, 4, d);
     lookAt.current.y = THREE.MathUtils.damp(
       lookAt.current.y,
-      desktop ? THREE.MathUtils.lerp(1.15, 0.85, deskT) : THREE.MathUtils.lerp(2.55, 0.7, deskT),
+      desktop ? THREE.MathUtils.lerp(1.15, 0.85, deskT) : THREE.MathUtils.lerp(HERO_LOOK_Y, 0.7, deskT),
       4,
       d
     );

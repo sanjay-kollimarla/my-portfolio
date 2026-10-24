@@ -11,4 +11,4 @@ export type SceneState = {
   deskAnchor?: [number, number, number] | null;
 };
 
-export const WAVE_LEN = 2.8;
+export const WAVE_LEN = 3.6;

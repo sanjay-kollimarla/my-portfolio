@@ -86,8 +86,8 @@ export default function Hero() {
         ))}
       </div>
 
-      <motion.div style={{ y, opacity: fade }} className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-center px-5 pb-16 pt-24 md:px-10 lg:pb-8">
-        <div className="max-w-[640px] self-start max-lg:-mt-[26svh]">
+      <motion.div style={{ y, opacity: fade }} className="relative mx-auto flex h-full max-w-[1400px] flex-col px-5 pb-16 pt-24 max-lg:justify-start md:px-10 lg:justify-center lg:pb-8">
+        <div className="max-w-[640px] self-start max-lg:mt-3">
           <motion.div
             className="glass mb-7 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-xs text-ink"
             initial={{ opacity: 0, y: 14 }}

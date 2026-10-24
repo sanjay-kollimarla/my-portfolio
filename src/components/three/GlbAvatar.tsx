@@ -337,17 +337,17 @@ export default function GlbAvatar({
       }
       // desk: palms resting on the table in front of the laptop
       if (st.desk > 0.01) poseArm(arm, gltf.scene, deskDirs(arm.side), st.desk);
-      // greeting: casual open-hands "hey" - arms eased out from the body, palms open, held briefly
-      if (w > 0.001 && !waveClip) {
+      // greeting: raise one hand and wave "hi" (forearm swings side to side)
+      if (w > 0.001 && !waveClip && arm.side > 0) {
         const sd = arm.side;
-        const sway = Math.sin(t * 1.6 + (sd > 0 ? 0 : 0.8)) * 0.04;
+        const sw = Math.sin(t * 9) * 0.5;
         poseArm(
           arm,
           gltf.scene,
           {
-            upper: new THREE.Vector3(0.5 * sd, -0.82, 0.22),
-            fore: new THREE.Vector3(0.5 * sd, -0.28 + sway, 0.8),
-            hand: new THREE.Vector3(0.55 * sd, -0.05 + sway, 0.85),
+            upper: new THREE.Vector3(0.62 * sd, -0.1, 0.35),
+            fore: new THREE.Vector3((0.05 + sw * 0.7) * sd, 1, 0.35),
+            hand: new THREE.Vector3((0.05 + sw) * sd, 1, 0.35),
           },
           w
         );
