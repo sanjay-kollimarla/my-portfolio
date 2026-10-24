@@ -12,7 +12,7 @@ export default function Background() {
         className="absolute -bottom-[18vh] -right-[8vw] h-[50vw] w-[50vw] rounded-full opacity-70 blur-[110px] will-change-transform"
         style={{ background: "radial-gradient(circle, rgba(255,140,80,0.12), transparent 65%)", animation: "wash-b 30s ease-in-out infinite alternate" }}
       />
-      {/* hairline column grid */}
+      {/* hairline column grid  */}
       <div
         className="absolute inset-0 opacity-[0.55]"
         style={{
