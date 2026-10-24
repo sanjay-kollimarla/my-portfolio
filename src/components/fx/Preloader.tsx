@@ -47,12 +47,10 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
       />
 
       <div className="relative flex flex-col items-center gap-8">
-        <motion.div
-          className="glass-strong neo relative flex h-28 w-28 items-center justify-center rounded-3xl"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 120, damping: 14 }}
-        >
+        <div className="pl-pop relative h-36 w-36 overflow-hidden rounded-[1.75rem] p-[2.5px]">
+          {/* always-spinning ring: shows the page is alive even if the progress line is not drawing yet */}
+          <span className="shimmer-spin absolute inset-[-60%] bg-[conic-gradient(from_0deg,transparent_0_220deg,#7c5cff_290deg,#22d3ee_335deg,transparent_360deg)]" />
+        <div className="glass-strong neo relative flex h-full w-full flex-col items-center justify-center gap-1 rounded-3xl bg-[#1e1548]">
           <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full -rotate-90">
             <motion.rect
               x="3"
@@ -74,7 +72,11 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
             </defs>
           </svg>
           <span className="font-display text-4xl font-bold text-gradient">SK</span>
-        </motion.div>
+          <span className="pl-loading font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-white/70">
+            Loading<span className="pl-dots" />
+          </span>
+        </div>
+        </div>
 
         <div className="h-10 overflow-hidden text-center">
           <motion.p

@@ -15,7 +15,6 @@ import WhatIDo from "@/components/sections/WhatIDo";
 import Career from "@/components/sections/Career";
 import Work from "@/components/sections/Work";
 import TechStack from "@/components/sections/TechStack";
-import Education from "@/components/sections/Education";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
@@ -44,7 +43,6 @@ export default function Home() {
           <Career />
           <Work />
           <TechStack />
-          <Education />
           <Contact />
         </main>
       </LoadState>
