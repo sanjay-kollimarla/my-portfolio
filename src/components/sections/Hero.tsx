@@ -5,200 +5,162 @@ import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/portfolio";
 import { useLoaded } from "@/components/fx/LoadState";
 import { scrollToId } from "@/components/fx/SmoothScroll";
-import Meteors from "@/components/magic/Meteors";
-import { RainbowLink, ShimmerButton } from "@/components/magic/Buttons";
-import { ArrowIcon } from "@/components/ui/Icons";
 import Magnetic from "@/components/ui/Magnetic";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-const roleSize = "font-display text-[clamp(1.5rem,3.5vw,3.8rem)] font-bold uppercase leading-none tracking-tight";
-const roleColors = ["from-violet-300 via-fuchsia-300 to-pink-300", "from-cyan-300 via-sky-300 to-violet-300", "from-amber-200 via-orange-300 to-pink-300"];
-const letterColors = ["#c084fc", "#f472b6", "#22d3ee", "#facc15", "#34d399", "#fb923c"];
+import { LineReveal, ease } from "@/components/ui/Editorial";
 
 function RoleSwapper({ enabled }: { enabled: boolean }) {
   const [i, setI] = useState(0);
   useEffect(() => {
     if (!enabled) return;
-    const id = setInterval(() => setI((v) => (v + 1) % profile.roles.length), 3000);
+    const id = setInterval(() => setI((v) => (v + 1) % profile.roles.length), 2800);
     return () => clearInterval(id);
   }, [enabled]);
-
-  const role = profile.roles[i];
-  const next = profile.roles[(i + 1) % profile.roles.length];
-
   return (
-    <div className="relative">
+    <div className="relative h-7 overflow-hidden font-mono text-[13px] uppercase tracking-[0.2em] text-ink md:text-sm">
       <AnimatePresence mode="popLayout" initial={false}>
-        <motion.div
-          key={next}
-          className={`pointer-events-none absolute -top-[0.62em] left-0 select-none whitespace-nowrap text-violet-500/30 [mask-image:linear-gradient(to_bottom,transparent_5%,#000_60%)] ${roleSize}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
+        <motion.span
+          key={profile.roles[i]}
+          className="absolute left-0 top-0 whitespace-nowrap"
+          initial={{ y: "110%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-110%", opacity: 0 }}
           transition={{ duration: 0.6, ease }}
         >
-          {next}
-        </motion.div>
+          <span className="mr-2 text-accent">/</span>
+          {profile.roles[i]}
+        </motion.span>
       </AnimatePresence>
-      <div className={`relative h-[1.08em] min-w-[10ch] whitespace-nowrap [clip-path:inset(0_-50%_0_-5%)] ${roleSize}`}>
-        <AnimatePresence initial={false}>
-          <motion.span key={role} className="absolute left-0 top-0 flex">
-            {role.split("").map((c, ci) => (
-              <motion.span
-                key={ci}
-                className={`inline-block bg-gradient-to-b bg-clip-text text-transparent ${roleColors[i % roleColors.length]}`}
-                initial={{ y: "110%", rotateX: -90 }}
-                animate={{ y: "0%", rotateX: 0 }}
-                exit={{ y: "-110%", rotateX: 90 }}
-                transition={{ duration: 0.7, ease, delay: ci * 0.022 }}
-              >
-                {c === " " ? " " : c}
-              </motion.span>
-            ))}
-          </motion.span>
-        </AnimatePresence>
-        <span className="invisible">{role}</span>
-      </div>
+      <span className="invisible whitespace-nowrap">/ Full-Stack Developer</span>
     </div>
   );
 }
 
-function BouncyWord({ word, delay, gradient }: { word: string; delay: number; gradient?: boolean }) {
-  const loaded = useLoaded();
-  return (
-    <span className="block overflow-hidden pb-1">
-      {word.split("").map((c, i) => (
-        <motion.span
-          key={i}
-          className={`inline-block ${gradient ? "aurora-text" : ""}`}
-          initial={{ y: "110%", rotate: 12 }}
-          animate={loaded ? { y: "0%", rotate: 0 } : {}}
-          transition={{ duration: 0.9, ease, delay: delay + i * 0.035 }}
-          whileHover={{
-            y: -10,
-            scale: 1.15,
-            color: letterColors[i % letterColors.length],
-            transition: { type: "spring", stiffness: 400, damping: 10 },
-          }}
-        >
-          {c === " " ? " " : c}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
+const chips = [
+  { k: "3+", v: "years in production", pos: "right-[2.5%] top-[24%]", delay: 0 },
+  { k: "40+", v: "RBAC permissions designed", pos: "right-[3.5%] bottom-[20%]", delay: 1.4 },
+];
 
 export default function Hero() {
   const loaded = useLoaded();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const leftX = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
-  const rightX = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -90]);
   const fade = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
   return (
-    <section id="home" ref={ref} className="relative z-10 h-[100svh] min-h-[640px] overflow-hidden">
-      <Meteors count={16} />
+    <section id="home" ref={ref} className="relative z-10 h-[100svh] min-h-[680px] overflow-hidden">
+      {/* concentric rings behind the avatar */}
+      <div aria-hidden className="pointer-events-none absolute left-1/2 top-[70%] hidden aspect-square w-[min(120vw,520px)] -translate-x-1/2 -translate-y-1/2 sm:block lg:left-[70%] lg:top-[54%] lg:w-[min(46vw,700px)]">
+        {[1, 0.78, 0.56].map((s, i) => (
+          <motion.div
+            key={s}
+            className="absolute inset-0 rounded-full border border-ink/[0.09]"
+            style={{ transform: `scale(${s})` }}
+            initial={{ opacity: 0, scale: s * 0.8 }}
+            animate={loaded ? { opacity: 1, scale: s } : {}}
+            transition={{ duration: 1.4, delay: 0.4 + i * 0.18, ease }}
+          />
+        ))}
+        <div className="ring-spin absolute inset-0">
+          <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_14px_rgba(123,155,255,0.9)]" />
+        </div>
+        <div className="ring-spin-rev absolute inset-[11%]">
+          <span className="absolute bottom-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-ink/70" />
+        </div>
+        <div className="absolute -inset-[8%] rounded-full bg-[radial-gradient(circle,rgba(110,140,255,0.38),rgba(110,140,255,0.12)_45%,transparent_70%)]" />
+      </div>
 
-      {/* name, left */}
-      <motion.div style={{ x: leftX, opacity: fade }} className="absolute left-6 top-[13%] z-10 md:left-[7vw] lg:top-[33%]">
-        <motion.div
-          className="relative mb-5 inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs backdrop-blur-md"
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={loaded ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.8, ease, delay: 0.4 }}
-        >
-          <span className="absolute inset-0 rounded-full bg-[linear-gradient(90deg,#a855f733,#22d3ee33,#f472b633,#a855f733)] bg-[length:300%_100%] [animation:aurora-x_6s_linear_infinite_alternate]" />
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          <span className="relative shiny-text font-medium">✨ Open to opportunities · {profile.location}</span>
-        </motion.div>
-
-        <motion.p
-          className="font-display text-xl tracking-[0.12em] text-violet-300 md:text-3xl"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          animate={loaded ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={{ duration: 0.9, ease, delay: 0.5 }}
-        >
-          Hello! I&apos;m{" "}
-          <motion.span
-            className="inline-block origin-[70%_70%]"
-            animate={loaded ? { rotate: [0, 18, -8, 18, -4, 12, 0] } : {}}
-            transition={{ duration: 1.8, delay: 1.4, repeat: Infinity, repeatDelay: 4 }}
+      {/* floating glass stat chips */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+        {chips.map((c) => (
+          <motion.div
+            key={c.k}
+            className={`glass absolute ${c.pos} rounded-2xl px-5 py-4`}
+            initial={{ opacity: 0, y: 24 }}
+            animate={loaded ? { opacity: 1, y: [0, -10, 0] } : {}}
+            transition={{ opacity: { duration: 0.8, delay: 1.5 + c.delay * 0.3 }, y: { duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: c.delay } }}
           >
-            👋
-          </motion.span>
-        </motion.p>
-        <h1 className="mt-1 font-display text-[clamp(2.3rem,4vw,3.9rem)] font-bold uppercase leading-[0.98] tracking-tight">
-          <BouncyWord word="Sai Sanjay" delay={0.65} />
-          <BouncyWord word="Kollimarla" delay={0.8} gradient />
-        </h1>
+            <div className="font-display text-4xl leading-none text-ink">{c.k}</div>
+            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">{c.v}</div>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div style={{ y, opacity: fade }} className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-center px-5 pb-16 pt-24 md:px-10 lg:pb-8">
+        <div className="max-w-[640px] self-start max-lg:-mt-[26svh]">
+          <motion.div
+            className="glass mb-7 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-xs text-ink"
+            initial={{ opacity: 0, y: 14 }}
+            animate={loaded ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease, delay: 0.3 }}
+          >
+            <span className="pulse-dot h-2 w-2 rounded-full bg-green-600" />
+            Available for new opportunities
+            <span className="text-muted">· {profile.location}</span>
+          </motion.div>
+
+          <h1 className="font-display text-[clamp(3.4rem,9.6vw,9.4rem)] leading-[0.88] tracking-[-0.02em] text-ink">
+            {loaded ? (
+              <LineReveal immediate delay={0.45} lines={["Sai Sanjay", <em key="k" className="accent-grad pr-[0.06em]">Kollimarla</em>]} />
+            ) : (
+              <span className="invisible block">Sai Sanjay<br />Kollimarla</span>
+            )}
+          </h1>
+
+          <motion.div className="mt-8" initial={{ opacity: 0 }} animate={loaded ? { opacity: 1 } : {}} transition={{ delay: 1.2, duration: 0.8 }}>
+            <RoleSwapper enabled={loaded} />
+          </motion.div>
+
+          <motion.p
+            className="mt-5 hidden max-w-[30rem] text-[15px] leading-relaxed text-muted sm:block md:text-base"
+            initial={{ opacity: 0, y: 16 }}
+            animate={loaded ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, ease, delay: 1.3 }}
+          >
+            Software engineer building scalable backend systems, multi-tenant SaaS and real-time services, from architecture to production.
+          </motion.p>
+
+          <motion.div
+            className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={loaded ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, ease, delay: 1.45 }}
+          >
+            <Magnetic strength={0.3}>
+              <button
+                onClick={() => scrollToId("work")}
+                data-cursor="View"
+                className="group flex items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-accent"
+              >
+                Selected work
+                <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
+              </button>
+            </Magnetic>
+            <button onClick={() => scrollToId("contact")} className="link-u group flex items-center gap-2 pb-1 text-sm font-medium text-ink">
+              Get in touch
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </button>
+          </motion.div>
+        </div>
 
         <motion.div
-          className="mt-8 hidden flex-wrap items-center gap-4 lg:flex"
-          initial={{ opacity: 0, y: 20 }}
-          animate={loaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease, delay: 1.5 }}
-        >
-          <Magnetic>
-            <ShimmerButton onClick={() => scrollToId("work")} data-cursor="View">
-              View my work <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </ShimmerButton>
-          </Magnetic>
-          <Magnetic>
-            <RainbowLink href={`mailto:${profile.email}?subject=Let's%20work%20together`} data-cursor="Hi!">
-              Hire me
-            </RainbowLink>
-          </Magnetic>
-        </motion.div>
-      </motion.div>
-
-      {/* role, right */}
-      <motion.div
-        style={{ x: rightX, opacity: fade }}
-        className="absolute bottom-[12%] left-6 z-10 md:left-auto md:right-[5vw] lg:bottom-auto lg:top-[56%]"
-      >
-        <motion.p
-          className="font-display text-2xl text-violet-300 md:text-4xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={loaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, ease, delay: 0.9 }}
-        >
-          A
-        </motion.p>
-        <motion.div
-          className="mt-[1.3em] pr-[0.3em]"
-          initial={{ opacity: 0, x: 60 }}
-          animate={loaded ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 1.1, ease, delay: 1 }}
-        >
-          <RoleSwapper enabled={loaded} />
-        </motion.div>
-      </motion.div>
-
-      <motion.div style={{ opacity: fade }} className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 md:block">
-        <motion.button
-          onClick={() => scrollToId("about")}
-          aria-label="Scroll down"
-          className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/50"
+          className="absolute inset-x-5 bottom-7 flex items-end justify-between md:inset-x-10"
           initial={{ opacity: 0 }}
           animate={loaded ? { opacity: 1 } : {}}
-          transition={{ delay: 2 }}
+          transition={{ delay: 1.9, duration: 0.8 }}
         >
-          <span className="relative flex h-12 w-7 justify-center overflow-hidden rounded-full p-[1.5px]">
-            <span className="shimmer-spin absolute inset-[-60%] bg-[conic-gradient(from_0deg,transparent_0_250deg,#a855f7,#22d3ee,transparent)]" />
-            <span className="relative flex h-full w-full justify-center rounded-full bg-[#1e1548] pt-2">
-              <motion.span
-                className="h-2 w-1 rounded-full bg-gradient-to-b from-violet-300 to-cyan-300"
-                animate={{ y: [0, 18, 0], opacity: [1, 0.2, 1] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-              />
+          <div className="flex gap-6 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+            <a href={profile.github} target="_blank" rel="noreferrer" className="link-u hover:text-ink">GitHub</a>
+            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="link-u hover:text-ink">LinkedIn</a>
+            <a href={`mailto:${profile.email}`} className="link-u hover:text-ink">Email</a>
+          </div>
+          <button onClick={() => scrollToId("about")} aria-label="Scroll down" className="hidden items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:flex">
+            Scroll
+            <span className="relative h-10 w-px overflow-hidden bg-ink/15">
+              <motion.span className="absolute inset-x-0 top-0 h-4 bg-ink" animate={{ y: [-16, 40] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }} />
             </span>
-          </span>
-          Scroll
-        </motion.button>
+          </button>
+        </motion.div>
       </motion.div>
     </section>
   );

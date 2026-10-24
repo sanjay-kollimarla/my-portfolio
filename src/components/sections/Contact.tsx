@@ -1,29 +1,22 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { profile } from "@/data/portfolio";
-import Magnetic from "@/components/ui/Magnetic";
-import { ArrowIcon, CheckIcon, CopyIcon } from "@/components/ui/Icons";
 import { scrollToId } from "@/components/fx/SmoothScroll";
-import { RainbowLink, ShimmerButton } from "@/components/magic/Buttons";
-import { burst } from "@/components/magic/confetti";
-import FlickeringGrid from "@/components/magic/FlickeringGrid";
-import ProfileOrbit from "@/components/magic/ProfileOrbit";
-import ScrambleText from "@/components/magic/ScrambleText";
-import Meteors from "@/components/magic/Meteors";
+import Magnetic from "@/components/ui/Magnetic";
+import { LineReveal, Rise, SectionLabel, ease } from "@/components/ui/Editorial";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const socials = [
+  { label: "GitHub", href: profile.github },
+  { label: "LinkedIn", href: profile.linkedin },
+  { label: "Email", href: `mailto:${profile.email}` },
+];
 
 export default function Contact() {
-  const ref = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const x1 = useTransform(scrollYProgress, [0, 1], ["-10%", "0%"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["10%", "0%"]);
 
-  const copy = async (e: React.MouseEvent) => {
-    burst(e);
+  const copy = async () => {
     try {
       await navigator.clipboard.writeText(profile.email);
       setCopied(true);
@@ -33,148 +26,89 @@ export default function Contact() {
     }
   };
 
-  const socials = [
-    { label: "GitHub", href: profile.github, color: "#e5e7eb" },
-    { label: "LinkedIn", href: profile.linkedin, color: "#38bdf8" },
-    { label: "Email", href: `mailto:${profile.email}`, color: "#f472b6" },
-    { label: "Call", href: `tel:${profile.phone.replace(/\s/g, "")}`, color: "#34d399" },
-  ];
-
   return (
-    <section id="contact" ref={ref} className="relative z-10 overflow-hidden px-6 pb-10 pt-32 md:px-[7vw]">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[70vh] opacity-50 [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_60%,transparent)]">
-        <FlickeringGrid />
+    <section id="contact" className="relative z-10 overflow-hidden px-5 pb-8 pt-28 md:px-10 md:pt-40">
+      {/* oversized watermark */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 select-none overflow-hidden text-center">
+        <motion.p
+          className="font-display text-[22vw] leading-[0.8] text-ink/[0.045]"
+          initial={{ y: "30%", opacity: 0 }}
+          whileInView={{ y: "0%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.4, ease }}
+        >
+          Sanjay
+        </motion.p>
       </div>
-      <Meteors count={10} />
 
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-        <div>
-          <ScrambleText text="06 // GET IN TOUCH" className="font-mono text-xs tracking-[0.3em] text-pink-300/80" />
-          <h2 className="mt-4 font-display text-[12vw] font-bold leading-[0.92] tracking-tighter md:text-[6.5vw]">
-            <motion.span style={{ x: x1 }} className="block">
-              Let&apos;s build
-            </motion.span>
-            <motion.span style={{ x: x2 }} className="aurora-text block pb-[0.12em]">
-              something great.
-            </motion.span>
-          </h2>
+      <div className="relative mx-auto max-w-[1400px]">
+        <SectionLabel n="06">Contact</SectionLabel>
+        <h2 className="mt-6 font-display text-[clamp(3rem,8.5vw,8.5rem)] leading-[0.9] tracking-[-0.02em] text-ink">
+          <LineReveal lines={["Let’s build", <em key="s" className="text-accent">something great.</em>]} />
+        </h2>
 
-          <motion.p
-            className="mt-6 max-w-lg text-lg text-white/65"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            Have a backend that needs to scale, a SaaS to architect, or a role you think I&apos;d fit? My inbox is always open.
-          </motion.p>
-
-          <motion.div
-            className="mt-10 flex flex-wrap items-center gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease }}
-          >
-            <Magnetic>
-              <ShimmerButton onClick={copy}>
+        <Rise delay={0.3} className="mt-12">
+          <p className="max-w-md text-[15px] leading-relaxed text-muted">
+            Have a backend that needs to scale, a platform to architect, or a role you think I&apos;d fit? My inbox is always open.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <a
+              href={`mailto:${profile.email}?subject=Let's%20work%20together`}
+              data-cursor="Write"
+              className="link-u group inline-flex items-center gap-3 pb-1 font-display text-[clamp(1.5rem,3.6vw,3.2rem)] text-ink"
+            >
+              {profile.email}
+              <span className="text-accent transition-transform duration-500 group-hover:translate-x-1.5 group-hover:-translate-y-1.5">↗</span>
+            </a>
+            <Magnetic strength={0.25}>
+              <button onClick={copy} className="glass flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-[13px] font-medium text-ink">
                 <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={copied ? "y" : "n"}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0 }}
-                    className="flex items-center gap-2"
-                  >
-                    {copied ? <CheckIcon className="h-4 w-4 text-emerald-400" /> : <CopyIcon />}
-                    {copied ? "Copied! 🎉" : "Copy email"}
+                  <motion.span key={copied ? "y" : "n"} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.25 }}>
+                    {copied ? "Copied ✓" : "Copy email"}
                   </motion.span>
                 </AnimatePresence>
-              </ShimmerButton>
+              </button>
             </Magnetic>
-            <Magnetic>
-              <RainbowLink
-                href={`mailto:${profile.email}?subject=Let's%20work%20together`}
-                data-cursor="Say hi"
-                onClick={(e) => burst(e)}
-                className="group"
-              >
-                Hire me
-                <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </RainbowLink>
-            </Magnetic>
-          </motion.div>
-        </div>
+          </div>
+        </Rise>
 
-        <motion.div
-          className="flex justify-center"
-          initial={{ opacity: 0, scale: 0.6, rotate: 20 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 80, damping: 14 }}
-        >
-          <ProfileOrbit size={170} />
-        </motion.div>
-      </div>
-
-      <div className="mt-24 border-t border-white/10 pt-14">
-        <motion.p
-          className="font-display text-4xl font-bold uppercase tracking-tight md:text-6xl"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease }}
-        >
-          Kollimarla <span className="aurora-text">Sai Sanjay</span>
-        </motion.p>
-
-        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-3">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-            <p className="text-xs uppercase tracking-[0.25em] text-white/40">Email</p>
-            <a href={`mailto:${profile.email}`} className="mt-2 block text-white/85 transition-colors hover:text-pink-300">
-              {profile.email}
-            </a>
-            <p className="mt-6 text-xs uppercase tracking-[0.25em] text-white/40">Phone</p>
-            <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="mt-2 block text-white/85 transition-colors hover:text-emerald-300">
+        <div className="relative mt-24 grid gap-10 border-t border-ink/80 pt-10 md:grid-cols-3">
+          <Rise>
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">Details</p>
+            <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="link-u mt-4 block w-fit text-[15px] text-ink">
               {profile.phone}
             </a>
-            <p className="mt-6 text-xs uppercase tracking-[0.25em] text-white/40">Location</p>
-            <p className="mt-2 text-white/85">📍 {profile.location}</p>
-          </motion.div>
+            <p className="mt-2 text-[15px] text-ink">{profile.location}</p>
+          </Rise>
 
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-            <p className="text-xs uppercase tracking-[0.25em] text-white/40">Social</p>
-            <ul className="mt-3 space-y-3">
+          <Rise delay={0.1}>
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">Elsewhere</p>
+            <ul className="mt-4 space-y-2.5">
               {socials.map((s) => (
                 <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target={s.href.startsWith("http") ? "_blank" : undefined}
-                    rel="noreferrer"
-                    className="group relative inline-flex items-center gap-2 pb-1 font-display text-2xl text-white/85 transition-colors"
-                    style={{ ["--c" as string]: s.color }}
-                  >
-                    <span className="transition-colors group-hover:text-[var(--c)]">{s.label}</span>
-                    <ArrowIcon className="h-4 w-4 -rotate-45 transition-transform duration-300 group-hover:rotate-0" />
-                    <span className="absolute bottom-0 left-0 h-px w-full bg-white/20" />
-                    <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" style={{ background: s.color }} />
+                  <a href={s.href} target={s.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="group inline-flex items-center gap-2 font-display text-[1.6rem] text-ink">
+                    <span className="link-u pb-0.5">{s.label}</span>
+                    <span className="text-accent opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">↗</span>
                   </a>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </Rise>
 
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-            <p className="font-display text-2xl leading-snug">
-              Designed and Developed
+          <Rise delay={0.2} className="md:text-right">
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">Colophon</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-ink">
+              Designed &amp; built by {profile.firstName}.
               <br />
-              by <span className="aurora-text">{profile.firstName}</span>
+              <span className="text-muted">Next.js · Three.js · Framer Motion</span>
             </p>
-            <p className="mt-3 text-sm text-white/40">Next.js · Three.js · Framer Motion</p>
-            <button onClick={() => scrollToId("home")} className="glass mt-8 rounded-full px-5 py-2.5 text-sm text-white/75 transition-all hover:-translate-y-1 hover:text-white">
+            <button onClick={() => scrollToId("home")} className="link-u mt-5 pb-0.5 text-[13px] font-medium text-ink">
               Back to top ↑
             </button>
-          </motion.div>
+          </Rise>
         </div>
+
+        <p className="relative mt-16 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">© 2026 {profile.name}</p>
       </div>
     </section>
   );

@@ -30,9 +30,6 @@ export default function Home() {
         <Background />
         <HeroScene avatarUrl={avatarUrl} />
         <ScrollProgress />
-        {/* soft frosted fade at the top and bottom edges of the screen */}
-        <div aria-hidden className="edge-blur edge-blur-top" />
-        <div aria-hidden className="edge-blur edge-blur-bottom" />
         <Cursor />
         {/* <ScrollBuddy /> */}
         <Header hasResume={hasResume} />

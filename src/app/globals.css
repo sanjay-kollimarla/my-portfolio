@@ -2,26 +2,27 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --font-display: var(--font-grotesk);
+  --font-display: var(--font-serif);
   --font-mono: var(--font-jetbrains);
-  --color-ink: #05060f;
-  --color-surface: #0b0d1c;
+  --color-paper: #0a0c12;
+  --color-paper2: #10131b;
+  --color-ink: #eceae4;
+  --color-muted: #9b9a94;
+  --color-rule: rgba(236, 234, 228, 0.14);
+  --color-accent: #7b9bff;
+  --color-accent-soft: rgba(123, 155, 255, 0.1);
 }
 
 :root {
-  --bg: #160e38;
-  --fg: #e8eaf6;
-  --muted: #9aa0c3;
-  --violet: #7c5cff;
-  --cyan: #c084fc;
-  --pink: #f472b6;
+  --bg: #0a0c12;
+  --fg: #eceae4;
+  --muted: #9b9a94;
+  --accent: #7b9bff;
 }
 
 html {
   background: var(--bg);
   color-scheme: dark;
-  /* stop decorative overflow (meteors, glows) from widening the mobile layout viewport,
-     which would push fixed UI like the header off-screen */
   overflow-x: clip;
 }
 
@@ -37,6 +38,7 @@ html.lenis body {
 }
 
 body {
+  background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: clip;
@@ -44,8 +46,8 @@ body {
 }
 
 ::selection {
-  background: rgba(124, 92, 255, 0.45);
-  color: #fff;
+  background: rgba(123, 155, 255, 0.3);
+  color: #ffffff;
 }
 
 ::-webkit-scrollbar {
@@ -669,4 +671,127 @@ html.custom-cursor * {
   75% {
     content: "...";
   }
+}
+
+/* =====================================================================
+   Editorial dark theme (overrides)
+   ===================================================================== */
+::-webkit-scrollbar-thumb {
+  background: rgba(236, 234, 228, 0.22);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 234, 228, 0.4);
+}
+
+.glass {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 48px -28px rgba(0, 0, 0, 0.7);
+}
+.glass-strong {
+  background: rgba(14, 17, 26, 0.72);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 28px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* animated underline for links */
+.link-u {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-u:hover,
+.group:hover .link-u {
+  background-size: 100% 1px;
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-out infinite;
+}
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+  }
+}
+
+.paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: screen;
+}
+
+@keyframes wash-a {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(8vw, 6vh) scale(1.15); }
+}
+@keyframes wash-b {
+  0% { transform: translate(0, 0) scale(1.1); }
+  100% { transform: translate(-7vw, -5vh) scale(0.95); }
+}
+@keyframes spin-slow-rev {
+  to { transform: rotate(-360deg); }
+}
+.ring-spin {
+  animation: orbit 90s linear infinite;
+}
+.ring-spin-rev {
+  animation: spin-slow-rev 120s linear infinite;
+}
+
+/* animated gradient for the accent word in the hero */
+.accent-grad {
+  background: linear-gradient(100deg, #7b9bff 0%, #5eead4 35%, #a5b4ff 65%, #7b9bff 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: accent-shift 8s ease-in-out infinite alternate;
+}
+@keyframes accent-shift {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* Skills: light that runs along each row's top rule */
+.rule-run {
+  animation: rule-run 5.5s ease-in-out infinite;
+}
+@keyframes rule-run {
+  0% { transform: translateX(-100%); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateX(400%); opacity: 0; }
+}
+
+/* Skills: marching dashes along the wires */
+.wire-flow {
+  animation: dash-flow 1.1s linear infinite;
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -14; }
+}
+/* Skills: light travelling down the mobile spine */
+.spine-run {
+  animation: spine-run 4s ease-in-out infinite;
+}
+@keyframes spine-run {
+  0% { top: -20%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
 }

@@ -104,7 +104,7 @@ function Laptop({
         <mesh material={m.logo} position={[0, (D * 0.98) / 2, -0.0185]} rotation={[0, Math.PI, 0]}>
           <circleGeometry args={[0.04, 32]} />
         </mesh>
-        <pointLight position={[0, D * 0.5, 0.25]} intensity={1.6} distance={1.4} color="#a5b4fc" />
+        <pointLight position={[0, D * 0.5, 0.25]} intensity={1.6} distance={1.4} color="#cfd8ff" />
       </group>
     </group>
   );
@@ -133,18 +133,18 @@ export default function Desk({
 
   const m = useMemo(
     () => ({
-      desk: new THREE.MeshPhysicalMaterial({ color: "#a78bfa", roughness: 0.05, transmission: 0.9, thickness: 0.4, transparent: true, opacity: 0.55 }),
-      mug: new THREE.MeshPhysicalMaterial({ color: "#22d3ee", roughness: 0.25, clearcoat: 1 }),
+      desk: new THREE.MeshPhysicalMaterial({ color: "#b99b78", roughness: 0.55, metalness: 0.0, clearcoat: 0.15 }),
+      mug: new THREE.MeshPhysicalMaterial({ color: "#f4f1ea", roughness: 0.25, clearcoat: 1 }),
       coffee: new THREE.MeshStandardMaterial({ color: "#3b2416", roughness: 0.2 }),
       alu: new THREE.MeshPhysicalMaterial({ color: "#5b5f6b", metalness: 0.85, roughness: 0.32, clearcoat: 0.4, clearcoatRoughness: 0.3 }),
       aluDark: new THREE.MeshPhysicalMaterial({ color: "#2a2c33", metalness: 0.8, roughness: 0.4 }),
       bezel: new THREE.MeshPhysicalMaterial({ color: "#0b0b0f", roughness: 0.15, clearcoat: 1 }),
-      keycap: new THREE.MeshStandardMaterial({ color: "#16161c", roughness: 0.55, emissive: "#7c3aed", emissiveIntensity: 0.12 }),
+      keycap: new THREE.MeshStandardMaterial({ color: "#16161c", roughness: 0.55, emissive: "#334155", emissiveIntensity: 0.08 }),
       pad: new THREE.MeshPhysicalMaterial({ color: "#6b7080", metalness: 0.6, roughness: 0.18, clearcoat: 1 }),
-      logo: new THREE.MeshBasicMaterial({ color: "#c4b5fd" }),
+      logo: new THREE.MeshBasicMaterial({ color: "#e7e5df" }),
       cam: new THREE.MeshBasicMaterial({ color: "#22c55e" }),
-      chair: new THREE.MeshPhysicalMaterial({ color: "#1e1b2e", roughness: 0.45, sheen: 1, sheenColor: new THREE.Color("#8b5cf6"), clearcoat: 0.3 }),
-      chrome: new THREE.MeshStandardMaterial({ color: "#d4d4d8", metalness: 1, roughness: 0.2 }),
+      chair: new THREE.MeshPhysicalMaterial({ color: "#2a2a2e", roughness: 0.5, clearcoat: 0.3 }),
+      chrome: new THREE.MeshStandardMaterial({ color: "#2b2b30", metalness: 0.7, roughness: 0.35 }),
     }),
     []
   );
@@ -229,7 +229,7 @@ export default function Desk({
           ))}
         </group>
       )}
-      <pointLight position={[0, 1.05, 1.3]} intensity={2.5} distance={2.5} color="#c084fc" />
+      <pointLight position={[0, 1.05, 1.3]} intensity={1.2} distance={2.5} color="#ffffff" />
     </group>
   );
 }
