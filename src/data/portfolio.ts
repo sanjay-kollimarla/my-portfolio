@@ -139,7 +139,7 @@ export const projects = [
     stack: ["Node.js", "TypeScript", "Redis", "Lua Scripts", "Express"],
     flow: ["Request", "Middleware", "Lua · Redis", "Allow / 429"],
     accent: "#22d3ee",
-    url: "https://rate-limiter-demo-jmad.onrender.com/",
+    url: "https://sanjay-kollimarla-distributed-rate.onrender.com/",
     repo: "https://github.com/sanjay-kollimarla/distributed-rate-limiting-service",
     points: [
       "Designed a centralized distributed rate limiting service using Redis.",
@@ -163,6 +163,8 @@ export const projects = [
       "Implemented duplicate detection, click tracking and expiration scheduling.",
       "Documented architecture covering caching, scalability, load balancing and fault tolerance.",
     ],
+    url: "https://sanjay-kollimarla-tinyurl-service.onrender.com/",
+    repo: "https://github.com/sanjay-kollimarla/TinyURL"
   },
 ];
 
