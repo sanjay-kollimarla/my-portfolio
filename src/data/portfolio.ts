@@ -121,7 +121,7 @@ export const projects = [
     stack: ["Node.js", "TypeScript", "BullMQ", "Redis", "Docker", "REST APIs", "SSE", "Webhooks"],
     flow: ["REST API", "BullMQ · Redis", "Worker Pool", "SSE · Webhooks"],
     accent: "#a78bfa",
-    url: "https://sanjay-kollimarla-email-queue.tailc8948a.ts.net/",
+    url: "https://sanjay-kollimarla.tailc8948a.ts.net",
     repo: "https://github.com/sanjay-kollimarla/email-queue-system",
     points: [
       "Architected a distributed asynchronous email processing platform using BullMQ and Redis.",
