@@ -99,17 +99,30 @@ function Panel({ project, index }: { project: Project; index: number }) {
 
       <div className={`mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 ${SH}mt-2`}>
         <h3 className="font-display text-[clamp(1.8rem,2.6vw,2.4rem)] leading-[1.02] text-ink">{project.short}</h3>
-        {project.url && (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noreferrer"
-            data-cursor="Open"
-            className="group inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-accent transition-colors duration-300 hover:bg-accent hover:text-paper"
-          >
-            Live demo <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
-          </a>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {project.repo && (
+            <a
+              href={project.repo}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor="Open"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink/80 transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper"
+            >
+              Source <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            </a>
+          )}
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor="Open"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-accent transition-colors duration-300 hover:bg-accent hover:text-paper"
+            >
+              Live demo <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            </a>
+          )}
+        </div>
       </div>
       <p className="mt-2 font-display text-lg italic text-accent">{project.tagline}</p>
 
