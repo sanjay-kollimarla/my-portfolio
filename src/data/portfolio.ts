@@ -121,6 +121,7 @@ export const projects = [
     stack: ["Node.js", "TypeScript", "BullMQ", "Redis", "Docker", "REST APIs", "SSE", "Webhooks"],
     flow: ["REST API", "BullMQ · Redis", "Worker Pool", "SSE · Webhooks"],
     accent: "#a78bfa",
+    url: "https://sanjay-kollimarla-email-queue.tailc8948a.ts.net/",
     points: [
       "Architected a distributed asynchronous email processing platform using BullMQ and Redis.",
       "Designed retries, exponential backoff, dead-letter queues (DLQ), idempotent processing and failure recovery.",
@@ -137,6 +138,7 @@ export const projects = [
     stack: ["Node.js", "TypeScript", "Redis", "Lua Scripts", "Express"],
     flow: ["Request", "Middleware", "Lua · Redis", "Allow / 429"],
     accent: "#22d3ee",
+    url: "https://rate-limiter-demo-jmad.onrender.com/",
     points: [
       "Designed a centralized distributed rate limiting service using Redis.",
       "Implemented Token Bucket and Sliding Window algorithms.",

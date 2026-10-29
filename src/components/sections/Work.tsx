@@ -51,13 +51,43 @@ function Flow({ flow }: { flow: string[] }) {
 
 function Panel({ project, index }: { project: Project; index: number }) {
   const [hover, setHover] = useState(false);
+  const [scale, setScale] = useState(1);
+  const box = useRef<HTMLElement>(null);
+  const inner = useRef<HTMLDivElement>(null);
+
+  // if the content is taller than the pinned viewport, shrink it to fit instead of clipping the bottom
+  useLayoutEffect(() => {
+    const fit = () => {
+      const a = box.current;
+      const c = inner.current;
+      if (!a || !c) return;
+      const prev = c.style.cssText;
+      c.style.cssText = "width:100%;height:100%;transform:none";
+      const need = c.scrollHeight;
+      const have = a.clientHeight;
+      c.style.cssText = prev;
+      setScale(need > have + 1 ? Math.max(0.4, have / need) : 1);
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    if (box.current) ro.observe(box.current);
+    document.fonts?.ready.then(fit);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <article
+      ref={box}
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
-      className={`relative flex h-full w-[86vw] shrink-0 flex-col overflow-hidden border-r border-rule px-6 py-8 transition-colors duration-500 sm:w-[60vw] md:px-9 lg:w-[38vw] xl:w-[34vw] ${SH}py-4 ${hover ? "bg-white/[0.05]" : ""}`}
+      className={`relative h-full w-[86vw] shrink-0 overflow-hidden border-r border-rule transition-colors duration-500 sm:w-[60vw] lg:w-[38vw] xl:w-[34vw] ${hover ? "bg-white/[0.05]" : ""}`}
     >
       {hover && <BorderBeam size={240} duration={5} from="#7b9bff" to="#5eead4" width={1.5} />}
+      <div
+        ref={inner}
+        className={`flex flex-col px-6 py-8 md:px-9 ${SH}py-4`}
+        style={{ width: `${100 / scale}%`, height: `${100 / scale}%`, transform: `scale(${scale})`, transformOrigin: "0 0" }}
+      >
       <div className="flex items-start justify-between gap-4">
         <span className={`font-display text-[4.2rem] leading-none text-transparent [-webkit-text-stroke:1px_rgba(236,234,228,0.5)] ${SH}text-[3rem]`}>0{index + 1}</span>
         <div className="pt-2 text-right font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
@@ -67,7 +97,20 @@ function Panel({ project, index }: { project: Project; index: number }) {
         </div>
       </div>
 
-      <h3 className={`mt-4 font-display text-[clamp(1.8rem,2.6vw,2.4rem)] leading-[1.02] text-ink ${SH}mt-2`}>{project.short}</h3>
+      <div className={`mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 ${SH}mt-2`}>
+        <h3 className="font-display text-[clamp(1.8rem,2.6vw,2.4rem)] leading-[1.02] text-ink">{project.short}</h3>
+        {project.url && (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noreferrer"
+            data-cursor="Open"
+            className="group inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-accent transition-colors duration-300 hover:bg-accent hover:text-paper"
+          >
+            Live demo <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+          </a>
+        )}
+      </div>
       <p className="mt-2 font-display text-lg italic text-accent">{project.tagline}</p>
 
       <div className={`mt-5 flex flex-wrap gap-1.5 ${SH}mt-3`}>
@@ -83,9 +126,7 @@ function Panel({ project, index }: { project: Project; index: number }) {
         {project.points.map((p, pi) => (
           <li
             key={p}
-            className={`gap-3 text-[13px] leading-snug text-ink/75 ${
-              pi >= 3 ? "hidden sm:flex [@media(max-height:820px)]:hidden" : pi >= 2 ? "flex [@media(max-height:720px)]:hidden" : "flex [@media(max-height:620px)]:hidden"
-            }`}
+            className="flex gap-3 text-[13px] leading-snug text-ink/75"
           >
             <span className="mt-[0.62em] h-px w-3 shrink-0 bg-accent" />
             {p}
@@ -95,6 +136,7 @@ function Panel({ project, index }: { project: Project; index: number }) {
 
       <div className={`mt-auto pt-6 ${SH}pt-3`}>
         <Flow flow={project.flow} />
+      </div>
       </div>
     </article>
   );
