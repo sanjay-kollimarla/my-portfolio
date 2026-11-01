@@ -137,6 +137,11 @@ export default function Header({ hasResume }: { hasResume: boolean }) {
                   </motion.li>
                 ))}
               </ul>
+              {hasResume && (
+                <a href="/resume.pdf" target="_blank" rel="noreferrer" className="mt-3 block rounded-xl border border-ink/20 px-4 py-3.5 text-center text-sm font-medium text-ink">
+                  Résumé ↗
+                </a>
+              )}
               <a href={`mailto:${profile.email}`} className="mt-3 block rounded-xl bg-ink px-4 py-3.5 text-center text-sm font-medium text-paper">
                 {profile.email}
               </a>
