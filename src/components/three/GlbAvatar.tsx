@@ -1,7 +1,7 @@
 "use client";
 
 import { useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { pointer } from "./pointer";
@@ -140,6 +140,11 @@ export default function GlbAvatar({
   children?: React.ReactNode;
 }) {
   const gltf = useGLTF(url);
+  const { gl, scene: threeScene, camera } = useThree();
+  // compile the avatar's shaders off the main thread so the first frame doesn't freeze the page
+  useEffect(() => {
+    gl.compileAsync(gltf.scene, camera, threeScene).catch(() => {});
+  }, [gl, gltf, camera, threeScene]);
   const root = useRef<THREE.Group>(null);
   const rig = useRef<THREE.Group>(null);
   // we drive the mixer ourselves (first thing each frame) so procedural poses can layer on top

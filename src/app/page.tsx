@@ -8,7 +8,7 @@ import ScrollProgress from "@/components/fx/ScrollProgress";
 // Byte (the flying scroll buddy) is built but switched off. To bring him back, uncomment the import and <ScrollBuddy /> below.
 // import ScrollBuddy from "@/components/fx/ScrollBuddy";
 import Header from "@/components/layout/Header";
-import HeroScene from "@/components/three/HeroScene";
+import HeroScene from "@/components/three/HeroSceneLazy";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import WhatIDo from "@/components/sections/WhatIDo";
