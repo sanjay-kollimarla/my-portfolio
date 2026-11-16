@@ -10,7 +10,7 @@ import Desk from "./Desk";
 import GlbAvatar from "./GlbAvatar";
 import { WAVE_LEN, type SceneState } from "./types";
 import { attachPointer, clamp01, smooth } from "./pointer";
-import { useLoaded } from "@/components/fx/LoadState";
+import { useLoaded, useMarkSceneReady } from "@/components/fx/LoadState";
 
 /** Where the avatar stands on desktop, as a fraction of the viewport width. */
 const HERO_X = 0.7;
@@ -24,14 +24,21 @@ function Director({
   container,
   loaded,
   avatarUrl,
+  markReady,
 }: {
   state: React.RefObject<SceneState>;
   container: React.RefObject<HTMLDivElement | null>;
   loaded: boolean;
   avatarUrl: string | null;
+  /** contexts don't cross into the Canvas, so the loading gate is passed in */
+  markReady: () => void;
 }) {
   const { camera, clock, viewport } = useThree();
   const intro = useRef<THREE.Group>(null);
+  // the built-in character has nothing to download; the GLB path reports ready from the desk's warm-up
+  useEffect(() => {
+    if (!avatarUrl) markReady();
+  }, [avatarUrl, markReady]);
   const lookAt = useRef(new THREE.Vector3(0, 1.2, 0));
   const nextWave = useRef(-1);
 
@@ -102,7 +109,7 @@ function Director({
         <Suspense fallback={null}>
           <GlbAvatar url={avatarUrl} state={state}>
             {/* standing desk sized for a full-body character; turns and moves with him */}
-            <Desk state={state} scale={1.2} position={[0, 0.21, -0.15]} legsTo={-6} />
+            <Desk state={state} scale={1.2} position={[0, 0.21, -0.15]} legsTo={-6} onReady={markReady} />
           </GlbAvatar>
         </Suspense>
       ) : (
@@ -116,6 +123,7 @@ function Director({
 
 export default function HeroScene({ avatarUrl = null }: { avatarUrl?: string | null }) {
   const loaded = useLoaded();
+  const markReady = useMarkSceneReady();
   const container = useRef<HTMLDivElement>(null);
   const state = useRef<SceneState>({ desk: 0, offsetX: 0, turn: 0, waveAt: -1 });
 
@@ -162,7 +170,7 @@ export default function HeroScene({ avatarUrl = null }: { avatarUrl?: string | n
           <Lightformer form="rect" intensity={1.4} position={[-5, 1, 2]} scale={[2, 5, 1]} color="#e6ecff" />
           <Lightformer form="rect" intensity={1.2} position={[5, 1, 2]} scale={[2, 5, 1]} color="#fff0dc" />
         </Environment>
-        <Director state={state} container={container} loaded={loaded} avatarUrl={avatarUrl} />
+        <Director state={state} container={container} loaded={loaded} avatarUrl={avatarUrl} markReady={markReady} />
       </Canvas>
     </div>
   );

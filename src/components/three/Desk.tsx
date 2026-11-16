@@ -1,8 +1,8 @@
 "use client";
 
 import { RoundedBox } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { SceneState } from "./types";
 
@@ -117,6 +117,7 @@ export default function Desk({
   position = [0, 0, 0],
   chair = null,
   legsTo = null,
+  onReady,
 }: {
   state: React.RefObject<SceneState>;
   scale?: number;
@@ -125,8 +126,14 @@ export default function Desk({
   chair?: [number, number, number] | null;
   /** floor height (desk-local units) — renders standing-desk legs down to it */
   legsTo?: number | null;
+  /** called once the desk's shaders are compiled, i.e. the first scroll to it will not stall */
+  onReady?: () => void;
 }) {
+  const { gl, scene, camera } = useThree();
   const group = useRef<THREE.Group>(null);
+  // meshes stay shown until the warm-up below has compiled their shaders
+  const warm = useRef(true);
+  const shown = useRef(true);
   const screen = useRef<THREE.Mesh>(null);
   const steam = useRef<THREE.Group>(null);
   const screenTex = useScreenTexture();
@@ -149,12 +156,38 @@ export default function Desk({
     []
   );
 
+  // Compile the desk's shaders and upload its texture while the loading screen is still up.
+  // Three skips invisible objects, so a desk that is hidden until the first scroll would
+  // compile on that scroll. Its point lights also change the scene's light count, which would
+  // recompile every material in the scene (the avatar's too) at that moment.
+  useEffect(() => {
+    let alive = true;
+    if (screenTex) gl.initTexture(screenTex);
+    gl.compileAsync(scene, camera)
+      .catch(() => {})
+      .then(() => {
+        if (!alive) return;
+        warm.current = false;
+        onReady?.();
+      });
+    return () => {
+      alive = false;
+    };
+  }, [gl, scene, camera, screenTex, onReady]);
+
   useFrame((s) => {
     const st = state.current;
     const t = s.clock.elapsedTime;
     if (!st || !group.current) return;
     const k = THREE.MathUtils.smoothstep(st.desk, 0.15, 1);
-    group.current.visible = k > 0.01;
+    // hide the meshes, not the group: the lights inside stay "visible" so the light count never changes
+    const show = warm.current || k > 0.01;
+    if (show !== shown.current) {
+      shown.current = show;
+      group.current.traverse((o) => {
+        if ((o as THREE.Mesh).isMesh) o.visible = show;
+      });
+    }
     group.current.scale.setScalar(scale * (0.6 + 0.4 * k));
     // follow the character's measured typing position when it provides one:
     // keyboard (desk-local 0, 0.38, 0.95) sits just under the hands
@@ -174,7 +207,7 @@ export default function Desk({
   });
 
   return (
-    <group ref={group} visible={false}>
+    <group ref={group}>
       <mesh material={m.desk} position={[0, 0.28, 1.15]}>
         <boxGeometry args={[2.0, 0.05, 1.0]} />
       </mesh>

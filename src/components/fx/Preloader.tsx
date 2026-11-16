@@ -6,29 +6,44 @@ import { setScrollLocked } from "./SmoothScroll";
 
 const words = ["Design", "Architect", "Scale", "Ship"];
 
-export default function Preloader({ onDone }: { onDone: () => void }) {
+/** never hold the page hostage if the model fails to load */
+const MAX_WAIT_MS = 15000;
+
+export default function Preloader({ ready, onDone }: { ready: boolean; onDone: () => void }) {
   const progress = useMotionValue(0);
   const rounded = useTransform(progress, (v) => Math.round(v).toString().padStart(3, "0"));
   const width = useTransform(progress, (v) => `${v}%`);
   const pathLength = useTransform(progress, [0, 100], [0, 1]);
   const [wordIndex, setWordIndex] = useState(0);
+  const [atGate, setAtGate] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
     setScrollLocked(true);
     window.scrollTo(0, 0);
-    const controls = animate(progress, 100, {
+    // the bar runs to 90% on a timer, then the last stretch waits for the 3D scene (see below)
+    const controls = animate(progress, 90, {
       duration: 2.4,
       ease: [0.65, 0, 0.35, 1],
       onUpdate: (v) => setWordIndex(Math.min(words.length - 1, Math.floor((v / 100) * words.length))),
-      onComplete: () => setTimeout(onDone, 250),
+      onComplete: () => setAtGate(true),
     });
+    const bail = setTimeout(() => setTimedOut(true), MAX_WAIT_MS);
     return () => {
       controls.stop();
+      clearTimeout(bail);
       document.documentElement.style.overflow = "";
       setScrollLocked(false);
     };
-  }, [onDone, progress]);
+  }, [progress]);
+
+  // model downloaded, parsed and shaders compiled: finish the bar and reveal the page
+  useEffect(() => {
+    if (!atGate || !(ready || timedOut)) return;
+    const controls = animate(progress, 100, { duration: 0.35, ease: "easeOut", onComplete: () => setTimeout(onDone, 250) });
+    return () => controls.stop();
+  }, [atGate, ready, timedOut, onDone, progress]);
 
   return (
     <motion.div
